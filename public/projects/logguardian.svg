@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="LogGuardian anomaly detection time series">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0D0D14"/>
+      <stop offset="1" stop-color="#080812"/>
+    </linearGradient>
+    <linearGradient id="ok" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10B981" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#10B981" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg2)"/>
+  <g stroke="#10B981" stroke-opacity="0.06">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/>
+    <path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+  </g>
+  <rect x="80" y="70" width="14" height="14" rx="3" fill="#EF4444"/>
+  <text x="108" y="83" font-family="monospace" font-size="22" fill="#8B8BA8">ML · ANOMALY DETECTION</text>
+  <text x="80" y="140" font-family="DM Sans, sans-serif" font-weight="700" font-size="46" fill="#F0F0FF">LogGuardian</text>
+
+  <!-- main chart -->
+  <g transform="translate(80 200)">
+    <rect width="1100" height="620" rx="16" fill="#0D0D14" stroke="#1E1E2E"/>
+    <text x="32" y="50" font-family="DM Sans" font-weight="600" font-size="26" fill="#F0F0FF">System Log Signal · Isolation Forest + Autoencoder</text>
+    <!-- baseline band -->
+    <rect x="40" y="220" width="1020" height="160" fill="#10B981" fill-opacity="0.05"/>
+    <line x1="40" y1="300" x2="1060" y2="300" stroke="#10B981" stroke-opacity="0.3" stroke-dasharray="8 8"/>
+    <!-- normal signal -->
+    <path d="M40 320 L120 300 L200 330 L280 290 L360 318 L440 296 L520 326 L600 300 L680 250 L760 312 L840 298 L920 322 L1000 304 L1060 312" fill="none" stroke="#10B981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M40 320 L120 300 L200 330 L280 290 L360 318 L440 296 L520 326 L600 300 L680 250 L760 312 L840 298 L920 322 L1000 304 L1060 312 L1060 560 L40 560 Z" fill="url(#ok)"/>
+    <!-- anomaly spikes -->
+    <line x1="600" y1="300" x2="600" y2="90" stroke="#EF4444" stroke-width="3"/>
+    <circle cx="600" cy="90" r="11" fill="#EF4444"/>
+    <line x1="920" y1="300" x2="920" y2="130" stroke="#EF4444" stroke-width="3"/>
+    <circle cx="920" cy="130" r="11" fill="#EF4444"/>
+    <text x="612" y="84" font-family="monospace" font-size="18" fill="#EF4444">ANOMALY</text>
+  </g>
+
+  <!-- side stats -->
+  <g transform="translate(1220 200)">
+    <rect width="300" height="195" rx="16" fill="#131320" stroke="#2A2A3E"/>
+    <text x="28" y="56" font-family="monospace" font-size="18" fill="#8B8BA8">FALSE POSITIVES</text>
+    <text x="28" y="120" font-family="DM Sans" font-weight="800" font-size="52" fill="#10B981">-35%</text>
+    <text x="28" y="160" font-family="monospace" font-size="16" fill="#4A4A6A">vs single-model</text>
+
+    <rect y="215" width="300" height="195" rx="16" fill="#131320" stroke="#2A2A3E"/>
+    <text x="28" y="271" font-family="monospace" font-size="18" fill="#8B8BA8">REST APIs</text>
+    <text x="28" y="335" font-family="DM Sans" font-weight="800" font-size="52" fill="#818CF8">5</text>
+    <text x="28" y="375" font-family="monospace" font-size="16" fill="#4A4A6A">FastAPI</text>
+
+    <rect y="430" width="300" height="190" rx="16" fill="#131320" stroke="#2A2A3E"/>
+    <text x="28" y="486" font-family="monospace" font-size="18" fill="#8B8BA8">STORE</text>
+    <text x="28" y="548" font-family="DM Sans" font-weight="800" font-size="40" fill="#06B6D4">PostgreSQL</text>
+    <text x="28" y="588" font-family="monospace" font-size="16" fill="#4A4A6A">auditable layer</text>
+  </g>
+</svg>
