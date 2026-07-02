@@ -8,7 +8,8 @@ import { categoryLabels, type Project } from '@/lib/data/projects'
 export function FeatureCard({ project, index }: { project: Project; index: number }) {
   return (
     <motion.article
-      className="feature-card group card-surface flex flex-col overflow-hidden"
+      id={project.id}
+      className="feature-card group card-surface flex scroll-mt-24 flex-col overflow-hidden"
       initial={{ opacity: 0, y: 60, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-80px' }}

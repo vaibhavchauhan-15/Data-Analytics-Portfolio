@@ -4,6 +4,7 @@ import { fonts } from '@/lib/fonts'
 import { SITE_CONFIG } from '@/lib/config'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { StructuredData } from '@/components/StructuredData'
+// @ts-expect-error CSS side-effect import
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -11,6 +12,9 @@ export const metadata: Metadata = {
   title: {
     default: 'Vaibhav Chauhan — Data Analyst | Power BI · Python · SQL · Delhi',
     template: '%s | Vaibhav Chauhan',
+  },
+  icons: {
+    icon: '/favicon.ico',
   },
   description: SITE_CONFIG.description,
   keywords: [

@@ -1,6 +1,9 @@
 export interface Skill {
   name: string
-  proficiency: number // 0–100
+  /** Standout skill — gets subtle accent emphasis in the UI. */
+  core?: boolean
+  /** IDs (from projects.ts) of real projects that demonstrate this skill. */
+  projects?: string[]
 }
 
 export interface SkillCategory {
@@ -12,61 +15,61 @@ export const skillCategories: SkillCategory[] = [
   {
     label: 'Analytics & BI',
     skills: [
-      { name: 'Power BI', proficiency: 90 },
-      { name: 'DAX & Data Modeling', proficiency: 85 },
-      { name: 'Excel', proficiency: 82 },
-      { name: 'Google Sheets', proficiency: 78 },
-      { name: 'Tableau', proficiency: 65 },
+      { name: 'Power BI', core: true, projects: ['sales-ops-dashboard', 'kpi-reporting-automation'] },
+      { name: 'DAX & Data Modeling', projects: ['sales-ops-dashboard'] },
+      { name: 'Excel', projects: ['sales-ops-dashboard'] },
+      { name: 'Google Sheets' },
+      { name: 'Tableau' },
     ],
   },
   {
     label: 'Databases & SQL',
     skills: [
-      { name: 'MySQL', proficiency: 85 },
-      { name: 'PostgreSQL', proficiency: 80 },
-      { name: 'Query Optimization', proficiency: 82 },
-      { name: 'Window Functions', proficiency: 78 },
-      { name: 'CTEs & Complex Joins', proficiency: 78 },
+      { name: 'MySQL', core: true, projects: ['sales-ops-dashboard', 'kpi-reporting-automation'] },
+      { name: 'PostgreSQL', projects: ['log-guardian'] },
+      { name: 'Query Optimization', projects: ['kpi-reporting-automation'] },
+      { name: 'Window Functions', projects: ['kpi-reporting-automation'] },
+      { name: 'CTEs & Complex Joins', projects: ['kpi-reporting-automation'] },
     ],
   },
   {
     label: 'Programming & Libraries',
     skills: [
-      { name: 'Python', proficiency: 85 },
-      { name: 'Pandas', proficiency: 86 },
-      { name: 'NumPy', proficiency: 80 },
-      { name: 'Matplotlib & Seaborn', proficiency: 80 },
-      { name: 'C++ / DSA', proficiency: 68 },
+      { name: 'Python', core: true, projects: ['log-guardian', 'data-quality-pipeline', 'sales-ops-dashboard'] },
+      { name: 'Pandas', core: true, projects: ['log-guardian', 'data-quality-pipeline', 'sales-ops-dashboard'] },
+      { name: 'NumPy', projects: ['data-quality-pipeline'] },
+      { name: 'Matplotlib & Seaborn', projects: ['data-quality-pipeline'] },
+      { name: 'C++ / DSA' },
     ],
   },
   {
     label: 'Statistics & Analysis',
     skills: [
-      { name: 'Exploratory Data Analysis', proficiency: 86 },
-      { name: 'Descriptive Statistics', proficiency: 82 },
-      { name: 'Hypothesis Testing', proficiency: 75 },
-      { name: 'Trend Analysis', proficiency: 82 },
-      { name: 'Data Interpretation', proficiency: 84 },
+      { name: 'Exploratory Data Analysis', core: true, projects: ['sales-ops-dashboard', 'data-quality-pipeline'] },
+      { name: 'Descriptive Statistics', projects: ['data-quality-pipeline'] },
+      { name: 'Hypothesis Testing' },
+      { name: 'Trend Analysis', projects: ['sales-ops-dashboard'] },
+      { name: 'Data Interpretation', projects: ['sales-ops-dashboard'] },
     ],
   },
   {
     label: 'Machine Learning',
     skills: [
-      { name: 'Scikit-learn', proficiency: 78 },
-      { name: 'Feature Engineering', proficiency: 75 },
-      { name: 'Anomaly Detection', proficiency: 74 },
-      { name: 'Data Cleaning & Imputation', proficiency: 85 },
-      { name: 'Model Evaluation', proficiency: 72 },
+      { name: 'Data Cleaning & Imputation', core: true, projects: ['data-quality-pipeline'] },
+      { name: 'Scikit-learn', projects: ['log-guardian'] },
+      { name: 'Feature Engineering', projects: ['log-guardian'] },
+      { name: 'Anomaly Detection', projects: ['log-guardian'] },
+      { name: 'Model Evaluation', projects: ['log-guardian'] },
     ],
   },
   {
     label: 'Workflow & Communication',
     skills: [
-      { name: 'Data Storytelling', proficiency: 85 },
-      { name: 'Stakeholder Reporting', proficiency: 84 },
-      { name: 'Reporting Automation', proficiency: 80 },
-      { name: 'FastAPI (data serving)', proficiency: 72 },
-      { name: 'Git & GitHub', proficiency: 82 },
+      { name: 'Data Storytelling', core: true, projects: ['sales-ops-dashboard'] },
+      { name: 'Stakeholder Reporting', projects: ['sales-ops-dashboard'] },
+      { name: 'Reporting Automation', projects: ['kpi-reporting-automation'] },
+      { name: 'FastAPI (data serving)', projects: ['log-guardian'] },
+      { name: 'Git & GitHub' },
     ],
   },
 ]

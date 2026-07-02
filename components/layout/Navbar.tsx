@@ -49,9 +49,20 @@ export function Navbar() {
         <div className="container-x flex h-16 items-center justify-between">
           <a
             href="#hero"
-            className="font-display text-lg font-extrabold tracking-tight text-text-primary"
+            aria-label="Vaibhav Chauhan — home"
+            className="group inline-flex items-end font-display text-lg font-extrabold leading-none tracking-tight text-text-primary"
           >
-            Vaibhav<span className="text-accent-primary">.</span>
+            <video
+              src="/logovideo.webm"
+              autoPlay
+              loop
+              muted
+              playsInline
+              aria-hidden="true"
+              className="logo-video block h-[1.15em] w-auto select-none"
+            />
+            <span className="-ml-[0.06em]">aibhav</span>
+            <span className="text-accent-primary">.</span>
           </a>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">

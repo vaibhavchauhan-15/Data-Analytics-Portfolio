@@ -22,7 +22,19 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           transition={{ duration: 0.25 }}
         >
           <div className="flex items-center justify-between px-4 py-5">
-            <span className="font-display text-lg font-bold">VC</span>
+            <span className="inline-flex items-end font-display text-lg font-extrabold leading-none tracking-tight text-text-primary">
+              <video
+                src="/logovideo.webm"
+                autoPlay
+                loop
+                muted
+                playsInline
+                aria-hidden="true"
+                className="logo-video block h-[1.15em] w-auto select-none"
+              />
+              <span className="-ml-[0.06em]">aibhav</span>
+              <span className="text-accent-primary">.</span>
+            </span>
             <button
               type="button"
               aria-label="Close menu"

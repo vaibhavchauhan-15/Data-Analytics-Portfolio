@@ -8,12 +8,14 @@ import { categoryLabels, type Project } from '@/lib/data/projects'
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <motion.article
+      // Featured projects already own this anchor via their FeatureCard; avoid a duplicate id.
+      id={project.featured ? undefined : project.id}
       layout
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.4, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-      className="card-surface group flex h-full flex-col overflow-hidden"
+      className="card-surface group flex h-full scroll-mt-24 flex-col overflow-hidden"
     >
       <div className="relative aspect-[16/9] overflow-hidden border-b border-border-subtle bg-bg-elevated">
         {/* eslint-disable-next-line @next/next/no-img-element */}
