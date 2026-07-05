@@ -4,11 +4,15 @@ import { SITE_CONFIG } from '@/lib/config'
 import { SmoothScroll } from '@/components/providers/SmoothScroll'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { CursorGlow } from '@/components/shared/CursorGlow'
-import { Navbar } from '@/components/layout/Navbar'
+import { SmoothCursor } from '@/components/magicui/smooth-cursor'
+import { ProgressiveBlur } from '@/components/magicui/progressive-blur'
+import { FloatingDock } from '@/components/layout/FloatingDock'
 import { Footer } from '@/components/layout/Footer'
 
 import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
+import { StatementBand } from '@/components/sections/StatementBand'
+import { VelocityDivider } from '@/components/sections/VelocityDivider'
 import { KPIStats } from '@/components/sections/KPIStats'
 import { Skills } from '@/components/sections/Skills'
 import { Experience } from '@/components/sections/Experience'
@@ -32,11 +36,12 @@ export default async function Home() {
     <SmoothScroll>
       <ScrollProgress />
       <CursorGlow />
-      <Navbar />
+      <SmoothCursor />
 
       <main>
         <Hero />
         <About />
+        <StatementBand />
         <KPIStats />
         <Skills />
         <Experience />
@@ -47,6 +52,7 @@ export default async function Home() {
         <CaseStudies />
         {SITE_CONFIG.showDataStorytelling && <DataStorytelling />}
         <GitHubSection repos={repos} />
+        <VelocityDivider />
         <TechStack />
         <Achievements />
         <Testimonials />
@@ -55,6 +61,15 @@ export default async function Home() {
       </main>
 
       <Footer />
+
+      {/* Soft dissolve so page content fades behind the floating dock */}
+      <ProgressiveBlur
+        position="bottom"
+        height="120px"
+        blurIntensity={5}
+        className="fixed inset-x-0 bottom-0 z-40"
+      />
+      <FloatingDock />
     </SmoothScroll>
   )
 }

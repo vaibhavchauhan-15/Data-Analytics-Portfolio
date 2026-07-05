@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Search } from 'lucide-react'
+import { Search, BarChart3, BrainCircuit, Code2, Database, type LucideIcon } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
-import { FeatureCard } from './FeatureCard'
+import { BentoGrid, BentoCard } from '@/components/magicui/bento-grid'
 import { ProjectCard } from './ProjectCard'
 import {
   projects,
@@ -12,6 +12,13 @@ import {
   categoryLabels,
   type ProjectCategory,
 } from '@/lib/data/projects'
+
+const CATEGORY_ICONS: Record<ProjectCategory, LucideIcon> = {
+  powerbi: BarChart3,
+  ml: BrainCircuit,
+  python: Code2,
+  sql: Database,
+}
 
 type Tab = 'all' | ProjectCategory
 
@@ -49,12 +56,36 @@ export function Projects() {
           description="Real builds with measurable outcomes — from BI dashboards to ML anomaly detection."
         />
 
-        {/* Featured */}
-        <div id="featured-projects" className="mt-12 grid gap-8 lg:grid-cols-2">
-          {featuredProjects.map((project, i) => (
-            <FeatureCard key={project.id} project={project} index={i} />
+        {/* Featured — interactive bento */}
+        <BentoGrid id="featured-projects" className="mt-12 auto-rows-[20rem] md:grid-cols-2">
+          {featuredProjects.map((project) => (
+            <BentoCard
+              key={project.id}
+              name={project.title}
+              description={project.description}
+              Icon={CATEGORY_ICONS[project.category]}
+              href={project.liveUrl ?? project.githubUrl}
+              cta={project.liveUrl ? 'View live demo' : 'View code'}
+              className="col-span-3 md:col-span-1"
+              background={
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={project.thumbnail}
+                    alt=""
+                    loading="lazy"
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-cover opacity-25 transition-all duration-500 group-hover:scale-105 group-hover:opacity-40"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-surface via-bg-surface/85 to-bg-surface/40" />
+                  <span className="absolute right-5 top-5 inline-flex items-center rounded-full border border-accent-primary/30 bg-accent-primary/10 px-2.5 py-1 font-mono text-xs text-accent-glow">
+                    {categoryLabels[project.category]}
+                  </span>
+                </>
+              }
+            />
           ))}
-        </div>
+        </BentoGrid>
 
         {/* Index */}
         <div className="mt-24">

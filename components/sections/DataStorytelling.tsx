@@ -29,7 +29,7 @@ export function DataStorytelling() {
               <Reveal key={step.title} delay={i * 0.1} className="relative text-center">
                 <div className="relative z-10 mx-auto grid h-16 w-16 place-items-center rounded-full border border-border-muted bg-bg-elevated">
                   <step.icon className="h-7 w-7 text-accent-primary" aria-hidden="true" />
-                  <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-accent-primary font-mono text-xs font-bold text-white">
+                  <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-accent-primary font-mono text-xs font-bold text-accent-foreground">
                     {i + 1}
                   </span>
                 </div>

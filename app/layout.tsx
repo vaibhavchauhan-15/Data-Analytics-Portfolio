@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { StructuredData } from '@/components/StructuredData'
 // @ts-expect-error CSS side-effect import
 import '@/styles/globals.css'
+import AgentationProvider from "@/components/AgentationProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#6366F1',
+  themeColor: '#121212',
   width: 'device-width',
   initialScale: 1,
 }
@@ -75,7 +76,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData />
       </head>
       <body className={fonts}>
-        <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        <AgentationProvider/>
         <Analytics />
       </body>
     </html>

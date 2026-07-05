@@ -4,7 +4,7 @@ import { SITE_CONFIG, NAV_LINKS } from '@/lib/config'
 export function Footer() {
   return (
     <footer className="relative border-t border-border-subtle bg-bg-surface">
-      <div className="container-x py-16">
+      <div className="container-x py-16 pb-28 md:pb-32">
         <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div className="max-w-sm">
             <a href="#hero" className="font-display text-xl font-extrabold">

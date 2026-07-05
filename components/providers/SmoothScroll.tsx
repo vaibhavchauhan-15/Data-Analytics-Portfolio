@@ -16,10 +16,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     if (prefersReducedMotion()) return
 
     const lenis = new Lenis({
+      // Duration + exponential ease-out gives the long, buttery glide people mean
+      // by "super smooth". Lenis integrates this frame-rate independently, so it
+      // stays consistent on 60Hz and 120Hz+ displays.
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      wheelMultiplier: 1,
       orientation: 'vertical',
       smoothWheel: true,
+      // Native inertial scrolling already feels great on touch; leave it alone.
+      syncTouch: false,
     })
 
     lenis.on('scroll', ScrollTrigger.update)

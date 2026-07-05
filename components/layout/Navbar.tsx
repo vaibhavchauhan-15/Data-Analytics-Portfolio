@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Menu, Download } from 'lucide-react'
 import { NAV_LINKS, SITE_CONFIG } from '@/lib/config'
 import { cn } from '@/lib/utils'
@@ -36,6 +36,30 @@ export function Navbar() {
     return () => observer.disconnect()
   }, [])
 
+  const openMenu = useCallback(() => setMenuOpen(true), [])
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
+
+  // Only depends on `active`, so scroll-driven `scrolled` flips don't rebuild
+  // the link list on every threshold cross.
+  const navLinks = useMemo(
+    () =>
+      NAV_LINKS.map((link) => (
+        <a
+          key={link.href}
+          href={link.href}
+          className={cn(
+            'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+            active === link.href.slice(1)
+              ? 'text-text-primary'
+              : 'text-text-secondary hover:text-text-primary'
+          )}
+        >
+          {link.label}
+        </a>
+      )),
+    [active]
+  )
+
   return (
     <>
       <header
@@ -66,20 +90,7 @@ export function Navbar() {
           </a>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                  active === link.href.slice(1)
-                    ? 'text-text-primary'
-                    : 'text-text-secondary hover:text-text-primary'
-                )}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -87,7 +98,7 @@ export function Navbar() {
             <a
               href={SITE_CONFIG.resumeUrl}
               download
-              className="hidden h-10 items-center gap-2 rounded-md bg-accent-primary px-4 text-sm font-medium text-white transition-all hover:shadow-glow sm:inline-flex"
+              className="hidden h-10 items-center gap-2 rounded-md bg-accent-primary px-4 text-sm font-medium text-accent-foreground transition-all hover:shadow-glow sm:inline-flex"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               Resume
@@ -95,7 +106,7 @@ export function Navbar() {
             <button
               type="button"
               aria-label="Open menu"
-              onClick={() => setMenuOpen(true)}
+              onClick={openMenu}
               className="grid h-10 w-10 place-items-center rounded-md border border-border-subtle text-text-secondary lg:hidden"
             >
               <Menu className="h-5 w-5" aria-hidden="true" />
@@ -104,7 +115,7 @@ export function Navbar() {
         </div>
       </header>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileMenu open={menuOpen} onClose={closeMenu} />
     </>
   )
 }

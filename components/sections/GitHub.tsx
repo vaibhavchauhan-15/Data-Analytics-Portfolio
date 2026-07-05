@@ -33,7 +33,7 @@ export function GitHubSection({ repos }: { repos: GitHubRepo[] }) {
           <div className="card-surface overflow-hidden p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`https://ghchart.rshah.org/6366f1/${SITE_CONFIG.githubUsername}`}
+              src={`https://ghchart.rshah.org/39ff14/${SITE_CONFIG.githubUsername}`}
               alt={`${SITE_CONFIG.name} GitHub contribution graph`}
               loading="lazy"
               className="w-full"
@@ -64,7 +64,7 @@ export function GitHubSection({ repos }: { repos: GitHubRepo[] }) {
                       <span className="flex items-center gap-1.5">
                         <span
                           className="h-2.5 w-2.5 rounded-full"
-                          style={{ backgroundColor: LANG_COLORS[repo.language] ?? '#6366F1' }}
+                          style={{ backgroundColor: LANG_COLORS[repo.language] ?? '#39FF14' }}
                         />
                         {repo.language}
                       </span>

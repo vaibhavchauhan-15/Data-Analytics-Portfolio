@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle2 } from 'lucide-react'
 import { SectionLabel } from '@/components/shared/SectionLabel'
-import { RevealText } from '@/components/shared/RevealText'
+import Text3DFlip from '@/components/magicui/text-3d-flip'
 import { Button } from '@/components/ui/Button'
 import { SITE_CONFIG } from '@/lib/config'
 import { contactSchema, SUBJECT_OPTIONS, type ContactInput } from '@/lib/schema'
@@ -65,9 +65,13 @@ export function Contact() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <SectionLabel>{'// 15. Contact'}</SectionLabel>
-            <RevealText className="mt-4 font-display text-2xl font-bold leading-tight md:text-3xl">
-              Let&rsquo;s Build Something with Data
-            </RevealText>
+            <Text3DFlip
+              className="mt-4 font-display text-2xl font-bold leading-tight text-text-primary md:text-3xl"
+              rotateDirection="top"
+              staggerFrom="first"
+            >
+              Let&apos;s Build Something with Data
+            </Text3DFlip>
             <p className="mt-4 max-w-md text-base text-text-secondary">
               Whether it&rsquo;s a job opportunity, freelance project, or just a conversation about
               data — I&rsquo;m reachable below.

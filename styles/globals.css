@@ -8,35 +8,40 @@
 :root,
 [data-theme='dark'] {
   /* Backgrounds */
-  --bg-base: #060609;
-  --bg-surface: #0d0d14;
-  --bg-surface-hover: #131320;
-  --bg-elevated: #1a1a2e;
+  --bg-base: #121212;
+  --bg-surface: #1a1a1a;
+  --bg-surface-hover: #202020;
+  --bg-elevated: #242424;
+
+  /* Hero / Nav surfaces */
+  --hero-bg: #0a0a0a;
+  --nav-button: #1a1a1a;
 
   /* Borders */
-  --border-subtle: #1e1e2e;
-  --border-muted: #2a2a3e;
-  --border-accent: #6366f1;
+  --border-subtle: #2a2a2a;
+  --border-muted: #3a3a3a;
+  --border-accent: #39ff14;
 
-  /* Brand / Accent */
-  --accent-primary: #6366f1;
-  --accent-glow: #818cf8;
-  --accent-secondary: #8b5cf6;
-  --accent-green: #10b981;
+  /* Brand / Accent — neon green */
+  --accent-primary: #39ff14;
+  --accent-glow: #66ff66;
+  --accent-secondary: #66ff66;
+  --accent-foreground: #0a0a0a;
+  --accent-green: #22c55e;
   --accent-amber: #f59e0b;
   --accent-red: #ef4444;
   --accent-cyan: #06b6d4;
 
   /* Text */
-  --text-primary: #f0f0ff;
-  --text-secondary: #9b9bbd;
-  --text-muted: #6c6c8c;
-  --text-inverse: #060609;
+  --text-primary: #f5f5f5;
+  --text-secondary: #b3b3b3;
+  --text-muted: #808080;
+  --text-inverse: #0a0a0a;
 
   /* Gradients */
-  --gradient-brand: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
-  --gradient-glow: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-  --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.02) 100%);
+  --gradient-brand: linear-gradient(135deg, #22c55e 0%, #39ff14 50%, #66ff66 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(57, 255, 20, 0.15) 0%, transparent 70%);
+  --gradient-card: linear-gradient(135deg, rgba(57, 255, 20, 0.05) 0%, rgba(34, 197, 94, 0.02) 100%);
 
   /* Typography */
   --text-xs: 0.75rem;
@@ -87,39 +92,56 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --glow-accent: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 60px rgba(99, 102, 241, 0.1);
-  --glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
-  --glow-subtle: 0 0 40px rgba(99, 102, 241, 0.08);
+  --glow-accent: 0 0 20px rgba(57, 255, 20, 0.3), 0 0 60px rgba(57, 255, 20, 0.1);
+  --glow-green: 0 0 20px rgba(34, 197, 94, 0.35);
+  --glow-subtle: 0 0 40px rgba(57, 255, 20, 0.08);
+
+  /* shadcn/Magic-UI compatibility aliases — mapped to the tokens above so
+     imported components render in-theme without a parallel color system. */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --primary: var(--accent-primary);
+  --primary-foreground: var(--accent-foreground);
+  --border: var(--border-subtle);
 }
 
 /* ============================================================
    DESIGN TOKENS — Light mode overrides
    ============================================================ */
 [data-theme='light'] {
-  --bg-base: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-surface-hover: #f4f4f8;
+  --bg-base: #ffffff;
+  --bg-surface: #f8fafc;
+  --bg-surface-hover: #f1f5f9;
   --bg-elevated: #ffffff;
 
-  --border-subtle: #e4e4e7;
-  --border-muted: #d1d1db;
-  --border-accent: #6366f1;
+  --hero-bg: #ffffff;
+  --nav-button: #f1f5f9;
 
-  --accent-primary: #6366f1;
-  --accent-glow: #4f52c9;
-  --accent-secondary: #7c3aed;
-  --accent-green: #059669;
+  --border-subtle: #e5e7eb;
+  --border-muted: #d1d5db;
+  --border-accent: #22c55e;
+
+  --accent-primary: #22c55e;
+  --accent-glow: #16a34a;
+  --accent-secondary: #16a34a;
+  --accent-foreground: #0a0a0a;
+  --accent-green: #16a34a;
   --accent-amber: #d97706;
   --accent-red: #dc2626;
   --accent-cyan: #0891b2;
 
-  --text-primary: #09090b;
-  --text-secondary: #52525b;
-  --text-muted: #71717a;
-  --text-inverse: #fafafa;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
 
-  --gradient-glow: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
-  --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(139, 92, 246, 0.01) 100%);
+  --gradient-brand: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+  --gradient-card: linear-gradient(135deg, rgba(34, 197, 94, 0.04) 0%, rgba(22, 163, 74, 0.01) 100%);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -135,8 +157,20 @@
   }
 
   html {
+    /* Non-static so framer-motion's useScroll({ target }) can measure scroll
+       offsets against the document element (its default container). Without this
+       framer logs a "container has a non-static position" warning. */
+    position: relative;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* NOTE: no `scroll-behavior: smooth` here — Lenis owns smooth scrolling.
+       Native smooth-scroll fights Lenis every frame and causes jank.
+       A fallback is applied below only when Lenis is NOT active. */
+    @apply font-sans;
+  }
+
+  /* Fallback smooth-scroll for anchors when JS/Lenis is unavailable. */
+  html:not(.lenis) {
     scroll-behavior: smooth;
   }
 
@@ -156,7 +190,7 @@
   }
 
   ::selection {
-    background: rgba(99, 102, 241, 0.3);
+    background: rgba(57, 255, 20, 0.3);
     color: var(--text-primary);
   }
 
@@ -252,14 +286,36 @@
 
 .bg-grid {
   background-image:
-    linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 .bg-dots {
-  background-image: radial-gradient(rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(57, 255, 20, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* ============================================================
+   LENIS SMOOTH SCROLL
+   Required styles so Lenis controls scrolling without native
+   smooth-scroll fighting it. Lenis adds these classes to <html>.
+   ============================================================ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 /* ============================================================
@@ -292,16 +348,19 @@
   }
 }
 
-/* Scroll progress bar */
+/* Scroll progress bar — animated via transform: scaleX (compositor-only,
+   no layout/paint) instead of `width` for a jank-free 60fps bar. */
 #scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
   background: var(--gradient-brand);
   z-index: 100;
-  will-change: width;
+  will-change: transform;
 }
 
 /* Cursor glow */
@@ -312,10 +371,28 @@
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.12) 0%, transparent 65%);
+  background: radial-gradient(ellipse at center, rgba(57, 255, 20, 0.12) 0%, transparent 65%);
   pointer-events: none;
   z-index: 1;
   will-change: transform;
+  transform: translate3d(-9999px, -9999px, 0);
+}
+
+/* ============================================================
+   VIEW TRANSITIONS — animated theme toggle
+   Disable the default root cross-fade so the AnimatedThemeToggler's
+   circular clip-path reveal is the only motion.
+   ============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}
+::view-transition-old(root) {
+  z-index: 9999;
 }
 
 /* ============================================================

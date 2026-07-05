@@ -4,7 +4,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const COLOR = new THREE.Color('#6366F1')
+const COLOR = new THREE.Color('#39FF14')
 
 function Particles({ count }: { count: number }) {
   const ref = useRef<THREE.Points>(null)
@@ -71,12 +71,18 @@ function Particles({ count }: { count: number }) {
 }
 
 export default function ParticleField() {
-  const [count, setCount] = useState(4000)
+  const [count, setCount] = useState(2400)
   const [visible, setVisible] = useState(true)
+  const [enabled, setEnabled] = useState(true)
   const wrapRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setCount(window.innerWidth < 768 ? 1200 : 4000)
+    // Skip the WebGL field entirely for reduced-motion users.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setEnabled(false)
+      return
+    }
+    setCount(window.innerWidth < 768 ? 900 : 2400)
   }, [])
 
   // Pause rendering when the hero scrolls offscreen.
@@ -91,6 +97,8 @@ export default function ParticleField() {
     return () => obs.disconnect()
   }, [])
 
+  if (!enabled) return null
+
   return (
     <div
       ref={wrapRef}
@@ -100,9 +108,11 @@ export default function ParticleField() {
     >
       <Canvas
         camera={{ position: [0, 0, 6], fov: 75 }}
-        dpr={[1, 1.75]}
+        // Cap DPR at 1.5 — additive-blended points don't need MSAA, so drop
+        // antialias too. Both cut fragment work sharply on Hi-DPI screens.
+        dpr={[1, 1.5]}
         frameloop={visible ? 'always' : 'never'}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
       >
         <Particles count={count} />
       </Canvas>

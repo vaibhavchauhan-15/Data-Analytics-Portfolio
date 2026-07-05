@@ -4,7 +4,10 @@ import Image from 'next/image'
 import { MapPin, GraduationCap, Briefcase, Building2 } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { Reveal } from '@/components/shared/Reveal'
+import { MorphingText } from '@/components/magicui/morphing-text'
 import { motion } from 'framer-motion'
+
+const SPECIALTIES = ['Dashboards', 'Pipelines', 'ML Models', 'Clean Data', 'Insights']
 
 const CHIPS = [
   { icon: MapPin, label: 'Delhi, India' },
@@ -76,6 +79,16 @@ export function About() {
                 you&rsquo;re working on data problems that matter, let&rsquo;s talk.
               </p>
             </Reveal>
+          </div>
+
+          <div className="mt-8">
+            <p className="font-mono text-xs uppercase tracking-wider text-text-muted">
+              Specializing in
+            </p>
+            <MorphingText
+              texts={SPECIALTIES}
+              className="mx-0 h-12 max-w-none text-left text-[2rem] text-accent-primary md:h-16 md:text-[2.75rem] lg:text-[2.75rem]"
+            />
           </div>
 
           <div className="about-chips mt-8 flex flex-wrap gap-3">

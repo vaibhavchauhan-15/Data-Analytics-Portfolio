@@ -17,6 +17,7 @@ const config: Config = {
           elevated: 'var(--bg-elevated)',
         },
         border: {
+          DEFAULT: 'var(--border-subtle)',
           subtle: 'var(--border-subtle)',
           muted: 'var(--border-muted)',
           accent: 'var(--border-accent)',
@@ -25,6 +26,7 @@ const config: Config = {
           primary: 'var(--accent-primary)',
           glow: 'var(--accent-glow)',
           secondary: 'var(--accent-secondary)',
+          foreground: 'var(--accent-foreground)',
           green: 'var(--accent-green)',
           amber: 'var(--accent-amber)',
           red: 'var(--accent-red)',
@@ -36,11 +38,29 @@ const config: Config = {
           muted: 'var(--text-muted)',
           inverse: 'var(--text-inverse)',
         },
+        'hero-bg': 'var(--hero-bg)',
+        'nav-button': 'var(--nav-button)',
+        // shadcn/Magic-UI compatibility colors (mapped to existing tokens)
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: {
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)',
+        },
+        muted: {
+          DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)',
+        },
+        primary: {
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)',
+        },
       },
       fontFamily: {
         display: ['var(--font-display)', 'sans-serif'],
         body: ['var(--font-body)', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
+        sora: ['var(--font-sora)', 'sans-serif'],
       },
       fontSize: {
         xs: 'var(--text-xs)',
@@ -86,9 +106,41 @@ const config: Config = {
           from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' },
         },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)', filter: 'blur(4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        // Magic UI
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+        },
+        'marquee-vertical': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(calc(-100% - var(--gap)))' },
+        },
+        'shiny-text': {
+          '0%, 90%, 100%': { 'background-position': 'calc(-100% - var(--shiny-width)) 0' },
+          '30%, 60%': { 'background-position': 'calc(100% + var(--shiny-width)) 0' },
+        },
+        orbit: {
+          '0%': { transform: 'rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg))' },
+          '100%': { transform: 'rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))' },
+        },
       },
       animation: {
         float: 'float 8s ease-in-out infinite',
+        'fade-up': 'fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in': 'fade-in 0.5s ease-out forwards',
+        // Magic UI
+        marquee: 'marquee var(--duration) infinite linear',
+        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
+        'shiny-text': 'shiny-text 8s infinite',
+        orbit: 'orbit calc(var(--duration) * 1s) linear infinite',
       },
     },
   },

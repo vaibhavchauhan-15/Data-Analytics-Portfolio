@@ -1,13 +1,18 @@
 'use client'
 
+import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import { Github, ExternalLink, ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { categoryLabels, type Project } from '@/lib/data/projects'
 
-export function ProjectCard({ project, index }: { project: Project; index: number }) {
+// forwardRef is required: AnimatePresence's popLayout mode wraps each child in
+// PopChild, which passes a ref to the immediate child to measure it on exit.
+export const ProjectCard = forwardRef<HTMLElement, { project: Project; index: number }>(
+  function ProjectCard({ project, index }, ref) {
   return (
     <motion.article
+      ref={ref}
       // Featured projects already own this anchor via their FeatureCard; avoid a duplicate id.
       id={project.featured ? undefined : project.id}
       layout
@@ -73,4 +78,4 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       </div>
     </motion.article>
   )
-}
+})
