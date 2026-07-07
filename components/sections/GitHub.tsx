@@ -30,13 +30,13 @@ export function GitHubSection({ repos }: { repos: GitHubRepo[] }) {
 
         {/* Contribution graph */}
         <Reveal className="mt-12">
-          <div className="card-surface overflow-hidden p-2">
+          <div className="card-surface overflow-x-auto p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`https://ghchart.rshah.org/39ff14/${SITE_CONFIG.githubUsername}`}
               alt={`${SITE_CONFIG.name} GitHub contribution graph`}
               loading="lazy"
-              className="w-full"
+              className="w-full min-w-[640px]"
             />
           </div>
         </Reveal>

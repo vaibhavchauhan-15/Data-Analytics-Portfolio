@@ -21,7 +21,7 @@ export function Certifications() {
         <SectionHeader
           eyebrow="// 06. Certifications"
           title="Validated, not just claimed"
-          description="Hover a card to expand it — every credential links to the verifiable certificate."
+          description="Every credential links to the verifiable certificate — tap to open, or hover to expand on desktop."
         />
 
         <ExpandCards cards={cards} defaultExpanded={0} className="mt-12" />

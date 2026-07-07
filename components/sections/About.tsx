@@ -39,7 +39,7 @@ export function About() {
               className="aspect-square w-full object-cover"
             />
           </div>
-          <div className="absolute -bottom-4 -right-4 rounded-xl border border-border-muted bg-bg-elevated px-4 py-3 shadow-lg">
+          <div className="absolute -bottom-2 -right-2 rounded-xl border border-border-muted bg-bg-elevated px-4 py-3 shadow-lg sm:-bottom-4 sm:-right-4">
             <p className="font-mono text-xs text-text-secondary">Data Analyst</p>
             <p className="font-display text-sm font-semibold text-text-primary">Coerror &rsquo;26</p>
           </div>

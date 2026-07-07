@@ -39,21 +39,21 @@ export default async function Home() {
 
       <main>
         <Hero />
-        <About />
         <StatementBand />
         <KPIStats />
-        <Skills />
-        <Experience />
-        <Education />
-        <Certifications />
         <Projects />
+        <Experience />
         <DashboardShowcase />
         <CaseStudies />
         {SITE_CONFIG.showDataStorytelling && <DataStorytelling />}
-        <GitHubSection repos={repos} />
-        <VelocityDivider />
+        <Skills />
         <TechStack />
+        <About />
+        <VelocityDivider />
         <Achievements />
+        <Certifications />
+        <Education />
+        <GitHubSection repos={repos} />
         <Testimonials />
         <FAQ />
         <Contact />

@@ -37,7 +37,7 @@ function SkillPill({ skill }: { skill: Skill }) {
       {/* Proof tooltip — real project names, no fabricated metric */}
       <span
         role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border-muted bg-bg-elevated px-2.5 py-1.5 text-[10px] normal-case tracking-normal text-text-primary opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-max max-w-[70vw] -translate-x-1/2 whitespace-normal rounded-md border border-border-muted bg-bg-elevated px-2.5 py-1.5 text-[10px] normal-case tracking-normal text-text-primary opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 sm:max-w-xs sm:whitespace-nowrap"
       >
         <span className="text-text-muted">Used in: </span>
         {names.join(', ')}

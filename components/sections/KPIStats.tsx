@@ -7,7 +7,7 @@ import { Reveal } from '@/components/shared/Reveal'
 export function KPIStats() {
   return (
     <section id="kpi" className="relative border-t border-border-subtle bg-bg-surface/40 py-16">
-      <div className="container-x grid grid-cols-2 gap-8 lg:grid-cols-4">
+      <div className="container-x grid grid-cols-2 gap-x-6 gap-y-10 sm:gap-8 lg:grid-cols-4">
         {kpiStats.map((stat, i) => (
           <Reveal key={stat.label} delay={i * 0.1} className="text-center lg:text-left">
             <div className="font-display text-4xl font-extrabold text-gradient md:text-5xl">

@@ -123,7 +123,7 @@ export function ExpandCards({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${card.title} certificate`}
-              className="group relative block h-56 overflow-hidden rounded-2xl border border-border-subtle"
+              className="group relative flex min-h-56 flex-col justify-end overflow-hidden rounded-2xl border border-border-subtle"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -134,7 +134,7 @@ export function ExpandCards({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
               <div className="absolute inset-x-0 top-0 h-1" style={{ background: color }} />
-              <div className="absolute inset-x-0 bottom-0 p-5">
+              <div className="relative p-5">
                 <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 font-mono text-xs text-white backdrop-blur">
                   <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Verified
                 </span>

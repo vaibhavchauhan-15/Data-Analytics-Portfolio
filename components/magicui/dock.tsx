@@ -53,7 +53,7 @@ export function Dock({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        'mx-auto flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border border-border-muted bg-bg-surface/80 p-2 backdrop-blur-xl [box-shadow:var(--shadow-lg)] supports-[backdrop-filter]:bg-bg-surface/60',
+        'mx-auto flex h-[58px] w-max items-center justify-center gap-1 rounded-2xl border border-border-muted bg-bg-surface/80 p-1.5 backdrop-blur-xl [box-shadow:var(--shadow-lg)] supports-[backdrop-filter]:bg-bg-surface/60 sm:gap-2 sm:p-2',
         {
           'items-start': direction === 'top',
           'items-center': direction === 'middle',

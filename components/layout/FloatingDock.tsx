@@ -19,18 +19,30 @@ import { Dock, DockIcon } from '@/components/magicui/dock'
 import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler'
 
 // Map each nav href to an icon + whether it stays visible on small screens.
-const ICONS: Record<string, { icon: LucideIcon; compact: boolean }> = {
-  '#about': { icon: User, compact: true },
-  '#skills': { icon: Sparkles, compact: false },
-  '#experience': { icon: Briefcase, compact: false },
-  '#projects': { icon: FolderGit2, compact: true },
-  '#dashboard': { icon: BarChart3, compact: false },
-  '#github': { icon: Github, compact: true },
-  '#contact': { icon: Mail, compact: true },
+const ICONS: Record<string, { icon: LucideIcon; className: string }> = {
+  '#about': { icon: User, className: '' },
+  '#skills': { icon: Sparkles, className: 'hidden md:flex' },
+  '#experience': { icon: Briefcase, className: 'hidden md:flex' },
+  '#projects': { icon: FolderGit2, className: '' },
+  '#dashboard': { icon: BarChart3, className: 'hidden md:flex' },
+  // GitHub is reachable from its section CTA — hide on the smallest phones so
+  // the dock row never overflows, then bring it back from sm up.
+  '#github': { icon: Github, className: 'hidden sm:flex' },
+  '#contact': { icon: Mail, className: '' },
 }
 
 export function FloatingDock() {
   const [active, setActive] = useState<string>('')
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Shrink the dock on phones so all icons fit inside the viewport width.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   // Active-section highlight (ported from the old Navbar).
   useEffect(() => {
@@ -54,8 +66,8 @@ export function FloatingDock() {
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-2 sm:bottom-6">
       <Dock
         direction="middle"
-        iconSize={40}
-        iconMagnification={62}
+        iconSize={isMobile ? 34 : 40}
+        iconMagnification={isMobile ? 50 : 62}
         iconDistance={130}
         className="pointer-events-auto max-w-[calc(100vw-1rem)]"
       >
@@ -71,7 +83,7 @@ export function FloatingDock() {
               label={link.label}
               icon={meta.icon}
               active={active === link.href.slice(1)}
-              className={meta.compact ? '' : 'hidden md:flex'}
+              className={meta.className}
             />
           )
         })}

@@ -13,7 +13,7 @@ export function Education() {
         <SectionHeader eyebrow="// 05. Education" title="Academic foundation" />
 
         <Reveal className="mt-10">
-          <div className="card-surface flex flex-col gap-6 bg-gradient-card p-8 md:flex-row md:items-center">
+          <div className="card-surface flex flex-col gap-6 bg-gradient-card p-6 sm:p-8 md:flex-row md:items-center">
             <div className="grid h-16 w-16 flex-shrink-0 place-items-center rounded-xl border border-border-muted bg-bg-elevated">
               <GraduationCap className="h-8 w-8 text-accent-primary" aria-hidden="true" />
             </div>

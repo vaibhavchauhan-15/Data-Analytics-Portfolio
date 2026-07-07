@@ -18,7 +18,21 @@ export function TechStack() {
           align="center"
         />
 
-        {/* Orbiting showcase — the toolbox in motion */}
+        {/* Mobile fallback — the orbit animation doesn't fit narrow screens,
+            so phones get a simple wrapped grid of the same tool chips. */}
+        <div className="mx-auto mt-10 flex max-w-md flex-wrap justify-center gap-3 sm:hidden">
+          {techStack.map((tech) => (
+            <div
+              key={tech.name}
+              title={tech.name}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-border-subtle bg-bg-surface/90 p-2.5 shadow-md"
+            >
+              <tech.icon className="h-full w-full" style={{ color: tech.color }} aria-hidden="true" />
+            </div>
+          ))}
+        </div>
+
+        {/* Orbiting showcase — the toolbox in motion (>= sm only) */}
         <div className="relative mx-auto mt-14 hidden h-[420px] w-full max-w-[520px] items-center justify-center sm:flex">
           {/* Center brand mark */}
           <div className="pointer-events-none z-10 grid h-24 w-24 place-items-center rounded-full border border-border-muted bg-bg-surface/80 text-center shadow-glow-subtle backdrop-blur">
