@@ -4,7 +4,6 @@ import { fonts } from '@/lib/fonts'
 import { SITE_CONFIG } from '@/lib/config'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { StructuredData } from '@/components/StructuredData'
-// @ts-expect-error CSS side-effect import
 import '@/styles/globals.css'
 import AgentationProvider from "@/components/AgentationProvider";
 

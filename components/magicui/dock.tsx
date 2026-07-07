@@ -68,7 +68,20 @@ export function Dock({
 }
 
 export interface DockIconProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    | 'children'
+    | 'onDrag'
+    | 'onDragStart'
+    | 'onDragEnd'
+    | 'onDragEnter'
+    | 'onDragLeave'
+    | 'onDragOver'
+    | 'onDrop'
+    | 'onAnimationStart'
+    | 'onAnimationEnd'
+    | 'onAnimationIteration'
+  > {
   size?: number
   magnification?: number
   distance?: number

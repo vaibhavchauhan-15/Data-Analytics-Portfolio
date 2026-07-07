@@ -1,62 +1,82 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { Moon, SunDim } from 'lucide-react'
 import { flushSync } from 'react-dom'
 import { cn } from '@/lib/utils'
 
-type StartViewTransition = (cb: () => void) => { ready: Promise<void> }
+const DURATION = 450
 
 interface AnimatedThemeTogglerProps {
   className?: string
 }
 
+/**
+ * Circular View-Transitions theme toggle.
+ *
+ * The switch is driven entirely by the View Transitions API: the browser
+ * snapshots the old + new theme as GPU bitmaps and we animate a single
+ * `clip-path` circle on the compositor. That means the reveal stays at 60fps
+ * no matter how heavy the page is (Three.js / Spline / GSAP), and no per-element
+ * color transitions run underneath (see `disableTransitionOnChange` in the
+ * ThemeProvider). Falls back to an instant swap when VT / reduced-motion apply.
+ */
 export function AnimatedThemeToggler({ className }: AnimatedThemeTogglerProps) {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => setMounted(true), [])
 
-  const isDark = theme !== 'light'
+  const isDark = resolvedTheme === 'dark'
 
-  const toggle = async () => {
+  const toggle = useCallback(() => {
+    const button = buttonRef.current
     const next = isDark ? 'light' : 'dark'
-    const doc = document as Document & {
-      startViewTransition?: StartViewTransition
-    }
 
-    if (!buttonRef.current || !doc.startViewTransition) {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // No VT support / reduced motion → just swap instantly.
+    if (
+      !button ||
+      prefersReducedMotion ||
+      typeof document.startViewTransition !== 'function'
+    ) {
       setTheme(next)
       return
     }
 
-    await doc
-      .startViewTransition(() => {
-        flushSync(() => setTheme(next))
-      })
-      .ready
-
-    const { top, left, width, height } = buttonRef.current.getBoundingClientRect()
+    const { top, left, width, height } = button.getBoundingClientRect()
     const x = left + width / 2
     const y = top + height / 2
     const maxRadius = Math.hypot(
-      Math.max(left, window.innerWidth - left),
-      Math.max(top, window.innerHeight - top)
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
     )
 
-    document.documentElement.animate(
-      {
-        clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRadius}px at ${x}px ${y}px)`],
-      },
-      {
-        duration: 550,
-        easing: 'ease-in-out',
-        pseudoElement: '::view-transition-new(root)',
-      }
-    )
-  }
+    const transition = document.startViewTransition(() => {
+      flushSync(() => setTheme(next))
+    })
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${maxRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: DURATION,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          pseudoElement: '::view-transition-new(root)',
+        }
+      )
+    })
+  }, [isDark, setTheme])
 
   return (
     <button

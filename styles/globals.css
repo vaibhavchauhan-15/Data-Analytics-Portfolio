@@ -180,7 +180,6 @@
     font-family: var(--font-body), system-ui, sans-serif;
     line-height: var(--leading-normal);
     overflow-x: hidden;
-    transition: background-color 0.8s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -381,18 +380,29 @@ html.lenis body {
 /* ============================================================
    VIEW TRANSITIONS — animated theme toggle
    Disable the default root cross-fade so the AnimatedThemeToggler's
-   circular clip-path reveal is the only motion.
+   circular clip-path reveal is the only motion. The NEW theme snapshot
+   sits on top and its clip-path circle is grown by JS — the old theme
+   stays put underneath, so the reveal reads as a clean expanding disc.
    ============================================================ */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-::view-transition-new(root) {
+::view-transition-old(root) {
   z-index: 1;
 }
-::view-transition-old(root) {
+::view-transition-new(root) {
   z-index: 9999;
+}
+
+/* Respect reduced motion — swap instantly with no snapshot animation. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+    mix-blend-mode: normal;
+  }
 }
 
 /* ============================================================

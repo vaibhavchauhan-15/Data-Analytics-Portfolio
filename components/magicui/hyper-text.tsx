@@ -17,7 +17,7 @@ interface HyperTextProps {
   characterSet?: CharacterSet
 }
 
-const DEFAULT_CHARACTER_SET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('') as const
+const DEFAULT_CHARACTER_SET: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 const getRandomInt = (max: number): number => Math.floor(Math.random() * max)
 

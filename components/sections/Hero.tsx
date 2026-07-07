@@ -1,166 +1,97 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import type { Application } from '@splinetool/runtime'
+
 import { KineticText } from '@/components/ui/kinetic-text'
 import { AnimatedShinyText } from '@/components/magicui/animated-shiny-text'
 import { SITE_CONFIG } from '@/lib/config'
-import { prefersReducedMotion } from '@/lib/utils'
 
+// The Spline runtime is a heavy (~1MB+) WebGL bundle. Load it on the client only,
+// after the hero has painted, so it never delays the LCP heading or hydration.
+const Spline = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
 
-// Spline 3D scene — lazy-loaded, client-only. Falls back to the hero background
-// while the runtime + scene download.
-const Spline = dynamic(() => import('@splinetool/react-spline/next'), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-hero-bg" />,
-})
-
-const SPLINE_SCENE = 'https://prod.spline.design/Slk6b8kz3LRlKiyk/scene.splinecode'
-
-// Cap the WebGL backing resolution. The scene is exported with an "Auto" pixel
-// ratio, so on 2x/3x displays the runtime renders at full devicePixelRatio —
-// 4–9x the fragment work of a 1x buffer, which is the main source of hero
-// stutter. 1.5 keeps edges crisp while roughly halving GPU load on Hi-DPI.
-const CAP_DPR = 1.5
-
-/**
- * The Spline runtime exposes no public pixel-ratio setter, but its internal
- * Three.js renderer does. We walk the loaded app to find that renderer (the one
- * object owning BOTH `setPixelRatio` and a numeric `_pixelRatio`) and cap it.
- *
- * Fully defensive: typed arrays / DOM nodes are skipped, the walk is depth- and
- * step-bounded to stay off the scene's giant object graph, and everything is
- * wrapped so a future runtime shape change degrades to a no-op instead of
- * throwing. The cap is a one-time set — the renderer reads `_pixelRatio` on
- * every resize, so it survives window resizes without re-applying.
- */
-function capPixelRatio(app: unknown, cap = CAP_DPR) {
-  const target = Math.min(window.devicePixelRatio || 1, cap)
-  const seen = new Set<unknown>()
-  const queue: unknown[] = [app]
-  let steps = 0
-
-  while (queue.length && steps++ < 4000) {
-    const node = queue.shift()
-    if (
-      !node ||
-      typeof node !== 'object' ||
-      seen.has(node) ||
-      ArrayBuffer.isView(node) ||
-      node instanceof Node
-    ) {
-      continue
-    }
-    seen.add(node)
-    const obj = node as Record<string, unknown>
-
-    if (
-      typeof obj.setPixelRatio === 'function' &&
-      typeof obj._pixelRatio === 'number'
-    ) {
-      if (obj._pixelRatio > target) {
-        try {
-          ;(obj.setPixelRatio as (n: number) => void)(target)
-        } catch {
-          /* best-effort optimization — ignore */
-        }
-      }
-      return
-    }
-
-    for (const key in obj) queue.push(obj[key])
-  }
-}
-
-/**
- * The 3D scene runs its own requestAnimationFrame loop that keeps burning GPU
- * even when it's offscreen or the tab is hidden. We gate it: the loop only runs
- * when the hero is in view AND the tab is visible — otherwise `app.stop()` fully
- * halts rendering. Scrolling the hero out of view stops it; scrolling back
- * resumes without re-downloading the scene.
- *
- * Isolated into its own component (and memoized) so its refs/effects never
- * re-render the static hero copy beside it.
- */
-const SplineBackground = memo(function SplineBackground() {
-  const appRef = useRef<Application | null>(null)
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const inView = useRef(true)
-  const tabVisible = useRef(true)
-  // Only mount the 3D scene once we've confirmed motion is allowed. Starting
-  // false skips the heavy runtime + scene download entirely for reduced-motion
-  // users, and defers it a tick for everyone else (it's lazy-loaded anyway).
-  const [play, setPlay] = useState(false)
-
-  const sync = useCallback(() => {
-    const app = appRef.current
-    if (!app) return
-    if (inView.current && tabVisible.current) app.play()
-    else app.stop()
-  }, [])
-
-  const handleLoad = useCallback(
-    (app: Application) => {
-      appRef.current = app
-      capPixelRatio(app)
-      sync()
-    },
-    [sync]
-  )
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return
-    setPlay(true)
-
-    const el = wrapRef.current
-    if (!el) return
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        inView.current = entry.isIntersecting
-        sync()
-      },
-      { threshold: 0 }
-    )
-    io.observe(el)
-
-    const onVisibility = () => {
-      tabVisible.current = document.visibilityState === 'visible'
-      sync()
-    }
-    document.addEventListener('visibilitychange', onVisibility)
-
-    return () => {
-      io.disconnect()
-      document.removeEventListener('visibilitychange', onVisibility)
-    }
-  }, [sync])
-
-  return (
-    <div ref={wrapRef} className="absolute inset-0">
-      {play && (
-        <Spline scene={SPLINE_SCENE} onLoad={handleLoad} className="h-full w-full" />
-      )}
-    </div>
-  )
-})
+const SCENE = 'https://prod.spline.design/yGpWjXfQ97agmFQ2/scene.splinecode'
 
 export function Hero() {
+  const [mountScene, setMountScene] = useState(false)
+  const [sceneReady, setSceneReady] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const appRef = useRef<Application | null>(null)
+
+  useEffect(() => {
+    // Users who prefer reduced motion never download the 3D scene.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const start = () => setMountScene(true)
+
+    // Defer the runtime until the browser is idle so first paint finishes first.
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(start, { timeout: 1500 })
+      return () => window.cancelIdleCallback?.(id)
+    }
+    const t = setTimeout(start, 600)
+    return () => clearTimeout(t)
+  }, [])
+
+  // Pause the WebGL render loop whenever the hero is scrolled out of view, and
+  // resume it when it returns. Combined with `renderOnDemand`, this keeps the
+  // rest of the page buttery — nothing renders in the background.
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const app = appRef.current
+        if (!app) return
+        if (entry.isIntersecting) app.play()
+        else app.stop()
+      },
+      { threshold: 0.05 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   return (
     <section
+      ref={sectionRef}
       id="hero"
+      data-native-cursor
       className="relative flex min-h-screen items-end overflow-hidden bg-hero-bg font-sora"
     >
-      {/* 3D background — gated to viewport + tab visibility */}
-      <SplineBackground />
+      {/* Interactive 3D Spline model (z-0). The canvas is enlarged and anchored
+          toward the top-right (extends ~15% past the top and right edges, which
+          `overflow-hidden` clips) so the model shifts up/right and zooms slightly
+          — filling the gaps the scene's centered camera would otherwise leave.
+          `pointer-events-auto` lets visitors drag / orbit it, while the text
+          column above keeps its buttons clickable. `renderOnDemand` only paints
+          frames on change (interaction/animation) instead of a constant loop. */}
+      <div className="pointer-events-auto absolute bottom-0 left-0 -right-[15%] -top-[15%] z-0">
+        {mountScene && (
+          <Spline
+            scene={SCENE}
+            renderOnDemand
+            onLoad={(app) => {
+              appRef.current = app
+              setSceneReady(true)
+            }}
+            className={`h-full w-full transition-opacity duration-1000 ease-out ${
+              sceneReady ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        )}
+      </div>
 
-      {/* Dark overlay for legibility */}
+      {/* Dark overlay for legibility. `pointer-events-none` so it never blocks
+          interaction with the Spline model beneath it. */}
       <div className="pointer-events-none absolute inset-0 z-[1] bg-black/30" />
 
-      {/* Content — anchored bottom-left. pointer-events-none lets clicks reach the
-          3D scene; interactive children re-enable pointer events. */}
-      <div className="relative z-10 w-full max-w-[90%] px-6 pb-10 pt-32 sm:max-w-md md:px-10 lg:max-w-2xl">
+      {/* Content — anchored bottom-left, on the top layer above the model. The
+          wrapper lets pointer events fall through to the model; only the actual
+          interactive children (headings, buttons, badge) re-enable them. */}
+      <div className="pointer-events-none relative z-10 w-full max-w-[90%] px-6 pb-10 pt-32 sm:max-w-md md:px-10 lg:max-w-2xl">
         {/* Kinetic heading — each letter thickens (with a stroke) on hover and
             nudges its neighbours. Uses the variable-axis Sora so the weight
             transition morphs smoothly instead of snapping between instances. */}
@@ -170,7 +101,24 @@ export function Hero() {
         >
           <KineticText
             text="Vaibhav"
-            className="pointer-events-auto text-[clamp(3rem,8vw,6rem)] uppercase leading-[1.05] tracking-[-0.05em] text-text-primary [font-family:var(--font-sora-flex)] [font-optical-sizing:auto]"
+            className="
+  pointer-events-auto
+  bg-gradient-to-b
+  from-black
+  to-gray-300/80
+  bg-clip-text
+  text-transparent
+  dark:from-white
+  dark:to-slate-900/10
+  text-[clamp(3rem,8vw,6rem)]
+  uppercase
+  leading-[1.05]
+  tracking-[-0.05em]
+  whitespace-pre-wrap
+  text-center
+  [font-family:var(--font-sora-flex)]
+  [font-optical-sizing:auto]
+"
           />
           <KineticText
             as="span"

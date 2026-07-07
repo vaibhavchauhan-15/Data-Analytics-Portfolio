@@ -47,6 +47,10 @@ export function SmoothCursor({
   springConfig = { damping: 45, stiffness: 400, mass: 1, restDelta: 0.001 },
 }: SmoothCursorProps) {
   const [enabled, setEnabled] = useState(false)
+  // Hide the custom cursor over regions that opt back into the native cursor
+  // (e.g. the interactive Spline hero), so drag/orbit feels natural there.
+  const [hidden, setHidden] = useState(false)
+  const overNative = useRef(false)
   const lastMousePos = useRef<Position>({ x: 0, y: 0 })
   const velocity = useRef<Position>({ x: 0, y: 0 })
   const lastUpdateTime = useRef(0)
@@ -107,6 +111,16 @@ export function SmoothCursor({
 
     let throttle: number | null = null
     const throttled = (e: MouseEvent) => {
+      // Yield to the OS cursor while over a `[data-native-cursor]` region.
+      const onNative = !!(e.target as HTMLElement | null)?.closest?.(
+        '[data-native-cursor]'
+      )
+      if (onNative !== overNative.current) {
+        overNative.current = onNative
+        document.body.style.cursor = onNative ? '' : 'none'
+        setHidden(onNative)
+      }
+
       if (throttle) return
       throttle = requestAnimationFrame(() => {
         smoothMouseMove(e)
@@ -139,6 +153,8 @@ export function SmoothCursor({
         zIndex: 9999,
         pointerEvents: 'none',
         willChange: 'transform',
+        opacity: hidden ? 0 : 1,
+        transition: 'opacity 0.15s ease',
       }}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
