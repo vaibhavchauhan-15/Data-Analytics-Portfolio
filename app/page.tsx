@@ -5,7 +5,6 @@ import { SmoothScroll } from '@/components/providers/SmoothScroll'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { CursorGlow } from '@/components/shared/CursorGlow'
 import { SmoothCursor } from '@/components/magicui/smooth-cursor'
-import { ProgressiveBlur } from '@/components/magicui/progressive-blur'
 import { FloatingDock } from '@/components/layout/FloatingDock'
 import { Footer } from '@/components/layout/Footer'
 
@@ -62,13 +61,6 @@ export default async function Home() {
 
       <Footer />
 
-      {/* Soft dissolve so page content fades behind the floating dock */}
-      <ProgressiveBlur
-        position="bottom"
-        height="120px"
-        blurIntensity={5}
-        className="fixed inset-x-0 bottom-0 z-40"
-      />
       <FloatingDock />
     </SmoothScroll>
   )

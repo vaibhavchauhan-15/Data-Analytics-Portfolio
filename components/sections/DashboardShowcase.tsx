@@ -58,7 +58,7 @@ export function DashboardShowcase() {
         />
       </div>
 
-      <div className="md:flex md:h-screen md:items-center">
+      <div className="md:flex md:h-screen md:items-center md:pt-40">
         <div
           ref={track}
           className="mt-12 flex flex-col gap-6 md:mt-0 md:flex-row md:gap-8 md:px-10"

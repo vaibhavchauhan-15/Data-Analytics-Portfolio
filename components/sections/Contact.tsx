@@ -70,7 +70,7 @@ export function Contact() {
               rotateDirection="top"
               staggerFrom="first"
             >
-              Let&apos;s Build Something with Data
+              Let&apos;s Build Something    with Data
             </Text3DFlip>
             <p className="mt-4 max-w-md text-base text-text-secondary">
               Whether it&rsquo;s a job opportunity, freelance project, or just a conversation about
