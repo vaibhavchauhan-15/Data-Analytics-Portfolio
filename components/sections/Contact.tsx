@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle2 } from 'lucide-react'
 import { SectionLabel } from '@/components/shared/SectionLabel'
 import Text3DFlip from '@/components/magicui/text-3d-flip'
 import { Button } from '@/components/ui/Button'
+import { useInViewport } from '@/lib/hooks/useInViewport'
 import { SITE_CONFIG } from '@/lib/config'
 import { contactSchema, SUBJECT_OPTIONS, type ContactInput } from '@/lib/schema'
 
@@ -19,6 +20,7 @@ const CONTACT_LINKS = [
 
 export function Contact() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [sectionRef, inView] = useInViewport<HTMLElement>()
   const {
     register,
     handleSubmit,
@@ -49,22 +51,29 @@ export function Contact() {
     'h-11 w-full rounded-md border border-border-subtle bg-bg-surface px-4 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none transition-colors'
 
   return (
-    <section id="contact" className="section relative overflow-hidden border-t border-border-subtle bg-bg-surface/30">
-      {/* Floating blobs */}
-      <div className="pointer-events-none absolute -left-20 top-20 h-72 w-72 rounded-full bg-accent-primary/10 blur-3xl animate-float" />
-      <div className="pointer-events-none absolute -right-20 bottom-20 h-72 w-72 rounded-full bg-accent-cyan/10 blur-3xl animate-float [animation-delay:2s]" />
+    <section ref={sectionRef} id="contact" className="section relative overflow-hidden border-t border-border-subtle bg-bg-surface/30">
+      {/* Floating blobs — large-radius blur is costly to composite, so freeze the
+          drift while the section is scrolled out of view. */}
+      <div
+        style={inView ? undefined : { animationPlayState: 'paused' }}
+        className="pointer-events-none absolute -left-20 top-20 h-72 w-72 rounded-full bg-accent-primary/10 blur-3xl animate-float"
+      />
+      <div
+        style={inView ? undefined : { animationPlayState: 'paused' }}
+        className="pointer-events-none absolute -right-20 bottom-20 h-72 w-72 rounded-full bg-accent-cyan/10 blur-3xl animate-float [animation-delay:2s]"
+      />
 
       <div className="container-x relative">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Info */}
-          <motion.div
+          <m.div
             id="contact-info"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <SectionLabel>{'// 15. Contact'}</SectionLabel>
+            <SectionLabel>{'// Contact'}</SectionLabel>
             <Text3DFlip
               className="mt-4 font-display text-2xl font-bold leading-tight text-text-primary md:text-3xl"
               rotateDirection="top"
@@ -117,10 +126,10 @@ export function Contact() {
                 <Linkedin className="h-5 w-5" aria-hidden="true" />
               </a>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Form */}
-          <motion.div
+          <m.div
             id="contact-form"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -194,7 +203,7 @@ export function Contact() {
                 </Button>
               </form>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

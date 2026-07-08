@@ -23,7 +23,7 @@ export function GitHubSection({ repos }: { repos: GitHubRepo[] }) {
     <section id="github" className="section border-t border-border-subtle">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 11. GitHub Activity"
+          eyebrow="// GitHub Activity"
           title="Code is public. Look under the hood."
           description="Recent repositories — analytics pipelines, ML prototypes, and full-stack builds."
         />

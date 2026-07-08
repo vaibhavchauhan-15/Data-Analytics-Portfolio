@@ -431,3 +431,28 @@ html.lenis body {
     animation: none;
   }
 }
+
+/* ============================================================
+   ADAPTIVE RENDERING — tier-driven degradation
+   PerformanceProvider sets these classes on <html> after it classifies the
+   device, so expensive CSS effects scale down without touching each component:
+     .perf-no-blur      → low tier / reduced-transparency: drop backdrop-filter
+     .perf-motion-none  → ultra-low tier / reduced motion: freeze infinite loops
+   ============================================================ */
+
+/* Blur is one of the most expensive things a low-end GPU paints every frame.
+   Swap backdrop blur for a solid surface tint that reads almost identically. */
+.perf-no-blur [class*='backdrop-blur'] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-color: var(--bg-surface);
+}
+
+/* Freeze the infinite compositor loops (marquees, orbits, shimmer, ping) on the
+   lowest tier — they burn battery for decorative motion the device can't spare. */
+.perf-motion-none .animate-marquee,
+.perf-motion-none .animate-marquee-vertical,
+.perf-motion-none .animate-orbit,
+.perf-motion-none .animate-ping {
+  animation: none !important;
+}

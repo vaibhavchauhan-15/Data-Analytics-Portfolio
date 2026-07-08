@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState, ElementType } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { cn, prefersReducedMotion } from '@/lib/utils'
 
 type CharacterSet = string[] | readonly string[]
@@ -33,7 +33,7 @@ export function HyperText({
   ...props
 }: HyperTextProps) {
   const MotionComponent = useMemo(
-    () => motion(Component as ElementType),
+    () => m(Component as ElementType),
     [Component]
   )
 
@@ -110,9 +110,9 @@ export function HyperText({
     >
       <AnimatePresence>
         {displayText.map((letter, index) => (
-          <motion.span key={index} className={cn('font-mono')}>
+          <m.span key={index} className={cn('font-mono')}>
             {letter.toUpperCase()}
-          </motion.span>
+          </m.span>
         ))}
       </AnimatePresence>
     </MotionComponent>

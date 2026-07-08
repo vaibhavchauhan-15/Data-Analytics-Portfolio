@@ -2,16 +2,18 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { cn, prefersReducedMotion } from '@/lib/utils'
+import { usePerformance } from '@/components/providers/PerformanceProvider'
 
 const morphTime = 1.5
 const cooldownTime = 0.5
 
-const useMorphingText = (texts: string[]) => {
+const useMorphingText = (texts: string[], staticMode: boolean) => {
   const textIndexRef = useRef(0)
   const morphRef = useRef(0)
   const cooldownRef = useRef(0)
-  const timeRef = useRef(new Date())
+  const timeRef = useRef(0)
 
+  const containerRef = useRef<HTMLDivElement>(null)
   const text1Ref = useRef<HTMLSpanElement>(null)
   const text2Ref = useRef<HTMLSpanElement>(null)
 
@@ -60,7 +62,9 @@ const useMorphingText = (texts: string[]) => {
   }, [])
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
+    // Skip the expensive blur+opacity rAF loop on the lowest tier as well as for
+    // reduced-motion users — the SVG-threshold blur is the priciest paint here.
+    if (staticMode || prefersReducedMotion()) {
       // Static: show the first text, no animation.
       if (text1Ref.current) {
         text1Ref.current.textContent = texts[0]
@@ -71,22 +75,46 @@ const useMorphingText = (texts: string[]) => {
       return
     }
 
-    let animationFrameId: number
-    const animate = () => {
+    let animationFrameId = 0
+    const animate = (now: number) => {
       animationFrameId = requestAnimationFrame(animate)
-      const newTime = new Date()
-      const dt = (newTime.getTime() - timeRef.current.getTime()) / 1000
-      timeRef.current = newTime
+      const dt = timeRef.current ? (now - timeRef.current) / 1000 : 0
+      timeRef.current = now
 
       cooldownRef.current -= dt
       if (cooldownRef.current <= 0) doMorph()
       else doCooldown()
     }
-    animate()
-    return () => cancelAnimationFrame(animationFrameId)
-  }, [doMorph, doCooldown, texts])
 
-  return { text1Ref, text2Ref }
+    // The morph is an infinite blur+opacity rAF loop — the single most expensive
+    // per-frame paint on the page. Only run it while the text is on screen.
+    const start = () => {
+      if (animationFrameId) return
+      timeRef.current = 0 // reset dt so re-entering doesn't jump
+      animationFrameId = requestAnimationFrame(animate)
+    }
+    const stop = () => {
+      cancelAnimationFrame(animationFrameId)
+      animationFrameId = 0
+    }
+
+    const el = containerRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      start()
+      return () => stop()
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { rootMargin: '100px' }
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      stop()
+    }
+  }, [doMorph, doCooldown, texts, staticMode])
+
+  return { containerRef, text1Ref, text2Ref }
 }
 
 interface MorphingTextProps {
@@ -95,9 +123,14 @@ interface MorphingTextProps {
 }
 
 export function MorphingText({ texts, className }: MorphingTextProps) {
-  const { text1Ref, text2Ref } = useMorphingText(texts)
+  const { motionLevel, detected } = usePerformance()
+  const { containerRef, text1Ref, text2Ref } = useMorphingText(
+    texts,
+    detected && motionLevel === 'none'
+  )
   return (
     <div
+      ref={containerRef}
       className={cn(
         'relative mx-auto h-16 w-full max-w-screen-md text-center font-sans text-[40pt] font-bold leading-none [filter:url(#morph-threshold)] md:h-24 lg:text-[6rem]',
         className

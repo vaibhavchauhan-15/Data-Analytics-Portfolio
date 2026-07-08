@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { motion, type Transition } from 'framer-motion'
+import { m, type Transition } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 type StaggerFrom = 'first' | 'last' | 'center'
@@ -57,7 +57,7 @@ export default function Text3DFlip({
           aria-hidden="true"
         >
           {/* Front face */}
-          <motion.span
+          <m.span
             className={cn('inline-block [backface-visibility:hidden]', textClassName)}
             initial={{ rotateX: 0, rotateY: 0 }}
             whileInView={{
@@ -67,7 +67,7 @@ export default function Text3DFlip({
             transition={{ ...transition, delay: delayFor(i) }}
           >
             {letter === ' ' ? ' ' : letter}
-          </motion.span>
+          </m.span>
         </span>
       ))}
       <span className="sr-only">{children}</span>

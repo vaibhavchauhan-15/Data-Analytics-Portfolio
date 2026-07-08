@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { AlertTriangle, Lightbulb, Target } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { Badge } from '@/components/ui/Badge'
@@ -11,14 +11,14 @@ export function CaseStudies() {
     <section id="case-studies" className="section border-t border-border-subtle">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 09. Case Studies"
+          eyebrow="// Case Studies"
           title="Problem → approach → outcome"
           description="The thinking behind the metrics — how each result was actually achieved."
         />
 
         <div className="mt-12 space-y-6">
           {caseStudies.map((study, i) => (
-            <motion.article
+            <m.article
               key={study.id}
               className="case-study-card card-surface overflow-hidden"
               initial={{ opacity: 0, y: 40 }}
@@ -37,7 +37,7 @@ export function CaseStudies() {
                 </div>
 
                 {/* Solution (clip-path wipe) */}
-                <motion.div
+                <m.div
                   className="case-solution bg-bg-surface p-6 md:p-8"
                   initial={{ clipPath: 'inset(0 100% 0 0)' }}
                   whileInView={{ clipPath: 'inset(0 0% 0 0)' }}
@@ -49,7 +49,7 @@ export function CaseStudies() {
                     <span className="font-mono text-xs uppercase tracking-wider">Approach</span>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-text-secondary">{study.approach}</p>
-                </motion.div>
+                </m.div>
               </div>
 
               {/* Footer: title + outcome */}
@@ -72,7 +72,7 @@ export function CaseStudies() {
                   </div>
                 </div>
               </div>
-            </motion.article>
+            </m.article>
           ))}
         </div>
       </div>

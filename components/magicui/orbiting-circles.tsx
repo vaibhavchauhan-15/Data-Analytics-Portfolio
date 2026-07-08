@@ -10,6 +10,8 @@ export interface OrbitingCirclesProps {
   path?: boolean
   iconSize?: number
   speed?: number
+  /** Freeze the orbit (e.g. when scrolled offscreen or on the hidden breakpoint). */
+  paused?: boolean
 }
 
 export function OrbitingCircles({
@@ -21,6 +23,7 @@ export function OrbitingCircles({
   path = true,
   iconSize = 30,
   speed = 1,
+  paused = false,
   ...props
 }: OrbitingCirclesProps) {
   const calculatedDuration = duration / speed
@@ -55,6 +58,7 @@ export function OrbitingCircles({
                 '--angle': angle,
                 width: `${iconSize}px`,
                 height: `${iconSize}px`,
+                animationPlayState: paused ? 'paused' : undefined,
               } as React.CSSProperties
             }
             className={cn(

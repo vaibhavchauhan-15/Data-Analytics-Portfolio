@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { skillCategories, type Skill } from '@/lib/data/skills'
 import { projects } from '@/lib/data/projects'
@@ -51,7 +51,7 @@ export function Skills() {
     <section id="skills" className="section border-t border-border-subtle bg-grid">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 03. Skills"
+          eyebrow="// Skills"
           title="The toolkit behind the analysis"
           description="From SQL optimization to BI dashboards and ML systems — a stack built for turning data into decisions."
         />
@@ -64,7 +64,7 @@ export function Skills() {
 
         <div className="skills-grid mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {skillCategories.map((cat, ci) => (
-            <motion.div
+            <m.div
               key={cat.label}
               className="skill-card card-surface bg-gradient-card p-6"
               initial={{ opacity: 0, y: 40 }}
@@ -80,7 +80,7 @@ export function Skills() {
                   <SkillPill key={skill.name} skill={skill} />
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

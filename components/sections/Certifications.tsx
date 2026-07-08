@@ -19,7 +19,7 @@ export function Certifications() {
     <section id="certifications" className="section border-t border-border-subtle">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 06. Certifications"
+          eyebrow="// Certifications"
           title="Validated, not just claimed"
           description="Every credential links to the verifiable certificate — tap to open, or hover to expand on desktop."
         />

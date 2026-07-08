@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { SectionHeader } from '@/components/shared/SectionHeader'
@@ -11,24 +11,24 @@ export function Experience() {
     <section id="experience" className="section border-t border-border-subtle bg-bg-surface/30">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 04. Experience"
+          eyebrow="// Experience"
           title="Where I turned data into outcomes"
         />
 
         <div className="relative mt-12 pl-8 md:pl-12">
           {/* Timeline line */}
           <div className="absolute left-[7px] top-2 h-full w-px bg-border-muted md:left-[11px]">
-            <motion.div
-              className="absolute left-0 top-0 w-px bg-gradient-brand"
-              initial={{ height: '0%' }}
-              whileInView={{ height: '100%' }}
+            <m.div
+              className="absolute inset-0 w-px origin-top bg-gradient-brand"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.4, ease: 'easeInOut' }}
             />
           </div>
 
           {experience.map((entry, i) => (
-            <motion.article
+            <m.article
               key={`${entry.company}-${i}`}
               className="timeline-entry relative pb-12 last:pb-0"
               initial={{ opacity: 0, x: 40 }}
@@ -81,7 +81,7 @@ export function Experience() {
                   View Internship Certificate
                 </a>
               )}
-            </motion.article>
+            </m.article>
           ))}
         </div>
       </div>

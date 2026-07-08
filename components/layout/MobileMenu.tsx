@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { X } from 'lucide-react'
 import { NAV_LINKS, SITE_CONFIG } from '@/lib/config'
 import { Button } from '@/components/ui/Button'
@@ -14,7 +14,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-[60] flex flex-col bg-bg-base/95 backdrop-blur-xl md:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -47,7 +47,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 
           <nav className="flex flex-1 flex-col justify-center gap-2 px-6">
             {NAV_LINKS.map((link, i) => (
-              <motion.a
+              <m.a
                 key={link.href}
                 href={link.href}
                 onClick={onClose}
@@ -57,7 +57,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 transition={{ delay: 0.1 + i * 0.06 }}
               >
                 {link.label}
-              </motion.a>
+              </m.a>
             ))}
           </nav>
 
@@ -68,7 +68,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
               </Button>
             </a>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

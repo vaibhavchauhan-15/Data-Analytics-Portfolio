@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react'
 import {
-  motion,
+  m,
   useMotionValue,
   useSpring,
   useTransform,
@@ -48,7 +48,7 @@ export function Dock({
     })
 
   return (
-    <motion.div
+    <m.div
       {...props}
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
@@ -63,7 +63,7 @@ export function Dock({
       )}
     >
       {renderChildren()}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -121,7 +121,7 @@ export function DockIcon({
   })
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       style={{ width: scaleSize, height: scaleSize, padding }}
       className={cn(
@@ -131,6 +131,6 @@ export function DockIcon({
       {...props}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

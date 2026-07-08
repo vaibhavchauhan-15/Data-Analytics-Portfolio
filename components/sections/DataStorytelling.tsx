@@ -16,7 +16,7 @@ export function DataStorytelling() {
     <section id="storytelling" className="section border-t border-border-subtle bg-dots">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 10. Data Storytelling"
+          eyebrow="// Data Storytelling"
           title="From raw rows to the boardroom"
           description="Every project follows the same arc — data only matters when it changes a decision."
           align="center"

@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState, type JSX } from 'react'
 import {
-  motion,
+  m,
   useSpring,
   type SpringOptions,
 } from 'framer-motion'
-import { prefersReducedMotion } from '@/lib/utils'
+import { usePerformance } from '@/components/providers/PerformanceProvider'
 
 interface Position {
   x: number
@@ -46,6 +46,7 @@ export function SmoothCursor({
   cursor = <DefaultCursorSVG />,
   springConfig = { damping: 45, stiffness: 400, mass: 1, restDelta: 0.001 },
 }: SmoothCursorProps) {
+  const { allowCursor, detected } = usePerformance()
   const [enabled, setEnabled] = useState(false)
   // Hide the custom cursor over regions that opt back into the native cursor
   // (e.g. the interactive Spline hero), so drag/orbit feels natural there.
@@ -63,8 +64,8 @@ export function SmoothCursor({
   const scale = useSpring(1, { ...springConfig, stiffness: 500, damping: 35 })
 
   useEffect(() => {
-    const finePointer = window.matchMedia('(pointer: fine)').matches
-    if (!finePointer || prefersReducedMotion()) return
+    // allowCursor folds in fine-pointer, hover, touch, tier and reduced motion.
+    if (!detected || !allowCursor) return
     setEnabled(true)
     document.body.style.cursor = 'none'
 
@@ -136,12 +137,12 @@ export function SmoothCursor({
       if (rafId) cancelAnimationFrame(rafId)
       if (throttle) cancelAnimationFrame(throttle)
     }
-  }, [cursorX, cursorY, rotation, scale])
+  }, [detected, allowCursor, cursorX, cursorY, rotation, scale])
 
   if (!enabled) return null
 
   return (
-    <motion.div
+    <m.div
       style={{
         position: 'fixed',
         left: 0,
@@ -161,6 +162,6 @@ export function SmoothCursor({
       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
     >
       <div style={{ transform: 'translate(-50%, -50%)' }}>{cursor}</div>
-    </motion.div>
+    </m.div>
   )
 }

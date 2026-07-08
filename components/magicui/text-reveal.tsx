@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, ReactNode, useRef } from 'react'
-import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
+import { m, MotionValue, useScroll, useTransform } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 export interface TextRevealProps {
@@ -20,8 +20,8 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   const words = children.split(' ')
 
   return (
-    <div ref={targetRef} className={cn('relative z-0 h-[200vh]', className)}>
-      <div className="sticky top-0 mx-auto flex h-[50%] max-w-4xl items-center bg-transparent px-[1rem] py-[2rem]">
+    <div ref={targetRef} className={cn('relative z-0 h-[140vh] md:h-[200vh]', className)}>
+      <div className="sticky top-0 mx-auto flex h-[60%] max-w-4xl items-center bg-transparent px-4 py-6 md:h-[50%] md:py-[2rem]">
         <span className="flex flex-wrap p-4 text-xl font-bold leading-tight text-text-primary/20 md:p-6 md:text-2xl lg:text-3xl">
           {words.map((word, i) => {
             const start = i / words.length
@@ -49,9 +49,9 @@ const Word: FC<WordProps> = ({ children, progress, range }) => {
   return (
     <span className="xl:lg-3 relative mx-1 lg:mx-1.5">
       <span className="absolute opacity-30">{children}</span>
-      <motion.span style={{ opacity }} className="text-text-primary">
+      <m.span style={{ opacity }} className="text-text-primary">
         {children}
-      </motion.span>
+      </m.span>
     </span>
   )
 }

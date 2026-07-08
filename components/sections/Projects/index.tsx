@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { Search } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { ProjectCard } from './ProjectCard'
@@ -43,7 +43,7 @@ export function Projects() {
     <section id="projects" className="section border-t border-border-subtle">
       <div className="container-x">
         <SectionHeader
-          eyebrow="// 07. Featured Projects"
+          eyebrow="// Featured Projects"
           title="Shipped, not just sketched"
           description="Real builds with measurable outcomes — from BI dashboards to ML anomaly detection."
         />
@@ -90,13 +90,13 @@ export function Projects() {
             </div>
           </div>
 
-          <motion.div layout className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <m.div layout className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
               {filtered.map((project, i) => (
                 <ProjectCard key={project.id} project={project} index={i} />
               ))}
             </AnimatePresence>
-          </motion.div>
+          </m.div>
 
           {filtered.length === 0 && (
             <p className="mt-12 text-center text-text-muted">

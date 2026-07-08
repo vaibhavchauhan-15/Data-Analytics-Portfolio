@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { fonts } from '@/lib/fonts'
 import { SITE_CONFIG } from '@/lib/config'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import { PerformanceProvider } from '@/components/providers/PerformanceProvider'
 import { StructuredData } from '@/components/StructuredData'
 import '@/styles/globals.css'
 import AgentationProvider from "@/components/AgentationProvider";
@@ -75,7 +76,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData />
       </head>
       <body className={fonts}>
+        <PerformanceProvider>
           <ThemeProvider>{children}</ThemeProvider>
+        </PerformanceProvider>
         <AgentationProvider/>
         <Analytics />
       </body>

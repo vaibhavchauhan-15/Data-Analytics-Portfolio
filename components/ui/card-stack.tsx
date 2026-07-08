@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import { SquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -293,7 +293,7 @@ export function CardStack<T extends CardStackItem>({
                 : {};
 
               return (
-                <motion.div
+                <m.div
                   key={item.id}
                   className={cn(
                     "absolute bottom-0 rounded-2xl border-4 border-black/10 dark:border-white/10 overflow-hidden shadow-xl",
@@ -353,7 +353,7 @@ export function CardStack<T extends CardStackItem>({
                       <DefaultFanCard item={item} active={isActive} />
                     )}
                   </div>
-                </motion.div>
+                </m.div>
               );
             })}
           </AnimatePresence>

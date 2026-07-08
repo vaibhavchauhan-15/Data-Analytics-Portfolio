@@ -35,7 +35,7 @@ export function Achievements() {
     <section id="achievements" className="section border-t border-border-subtle">
       <div className="container-x">
         <div className="flex flex-col gap-4">
-          <SectionLabel>{'// 13. Achievements'}</SectionLabel>
+          <SectionLabel>{'// Achievements'}</SectionLabel>
           <HyperText
             as="h2"
             className="text-2xl font-bold leading-tight text-text-primary md:text-3xl"

@@ -1,7 +1,8 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
+import { m, type Variants } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { usePerformance } from '@/components/providers/PerformanceProvider'
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -13,9 +14,18 @@ interface RevealProps {
   as?: 'div' | 'li' | 'article' | 'section' | 'span'
 }
 
-/** Generic fade-up on scroll into view. Honors reduced motion via Framer Motion. */
+/** Generic fade-up on scroll into view. Honors reduced motion and drops to a
+ *  static element on the lowest tier (motionLevel === 'none'). Uses the `m`
+ *  component so it rides the LazyMotion feature bundle. */
 export function Reveal({ children, delay = 0, y = 30, className, as = 'div' }: RevealProps) {
-  const MotionTag = motion[as]
+  const { motionLevel, detected } = usePerformance()
+
+  if (detected && motionLevel === 'none') {
+    const Tag = as
+    return <Tag className={className}>{children}</Tag>
+  }
+
+  const MotionTag = m[as]
   return (
     <MotionTag
       className={className}

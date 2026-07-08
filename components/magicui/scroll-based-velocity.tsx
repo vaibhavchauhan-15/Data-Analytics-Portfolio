@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, ComponentPropsWithoutRef } from 'react'
 import {
-  motion,
+  m,
   useAnimationFrame,
   useMotionValue,
   useScroll,
@@ -57,8 +57,12 @@ export const ScrollVelocityRow = React.forwardRef<
   const [repetitions, setRepetitions] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLSpanElement>(null)
+  // Cheap gate so the rAF loop below does no work while parked offscreen. A ref
+  // (not state) avoids re-rendering the row on every enter/leave.
+  const inViewRef = useRef(false)
 
   useEffect(() => {
+    let raf = 0
     const calculateRepetitions = () => {
       if (containerRef.current && textRef.current) {
         const containerWidth = containerRef.current.offsetWidth
@@ -67,15 +71,38 @@ export const ScrollVelocityRow = React.forwardRef<
         setRepetitions(newRepetitions)
       }
     }
+    // Coalesce resize bursts into one layout read per frame.
+    const onResize = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(calculateRepetitions)
+    }
     calculateRepetitions()
-    window.addEventListener('resize', calculateRepetitions)
-    return () => window.removeEventListener('resize', calculateRepetitions)
+    window.addEventListener('resize', onResize)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+    }
   }, [children])
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inViewRef.current = entry.isIntersecting
+      },
+      { rootMargin: '200px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   const x = useTransform(baseX, (v) => `${wrap(-100 / repetitions, 0, v)}%`)
 
   const directionFactor = useRef(direction)
   useAnimationFrame((t, delta) => {
+    // Skip the spring read + motion-value write entirely when offscreen.
+    if (!inViewRef.current) return
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000)
     if (velocityFactor.get() < 0) {
       directionFactor.current = -1
@@ -92,13 +119,13 @@ export const ScrollVelocityRow = React.forwardRef<
       className={cn('w-full overflow-hidden whitespace-nowrap', className)}
       {...props}
     >
-      <motion.div className="inline-flex" style={{ x }}>
+      <m.div className="inline-flex" style={{ x }}>
         {Array.from({ length: repetitions }).map((_, i) => (
           <span key={i} ref={i === 0 ? textRef : null} className="inline-block">
             {children}{' '}
           </span>
         ))}
-      </motion.div>
+      </m.div>
     </div>
   )
 })

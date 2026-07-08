@@ -5,7 +5,7 @@ import { MapPin, GraduationCap, Briefcase, Building2 } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { Reveal } from '@/components/shared/Reveal'
 import { MorphingText } from '@/components/magicui/morphing-text'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const SPECIALTIES = ['Dashboards', 'Pipelines', 'ML Models', 'Clean Data', 'Insights']
 
@@ -21,7 +21,7 @@ export function About() {
     <section id="about" className="section border-t border-border-subtle">
       <div className="container-x grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         {/* Image */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: -60, rotate: -3 }}
           whileInView={{ opacity: 1, x: 0, rotate: 0 }}
           viewport={{ once: true, margin: '-100px' }}
@@ -43,12 +43,12 @@ export function About() {
             <p className="font-mono text-xs text-text-secondary">Data Analyst</p>
             <p className="font-display text-sm font-semibold text-text-primary">Coerror &rsquo;26</p>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Text */}
         <div>
           <SectionHeader
-            eyebrow="// 02. About"
+            eyebrow="// About"
             title={
               <>
                 Data tells stories.
@@ -93,7 +93,7 @@ export function About() {
 
           <div className="about-chips mt-8 flex flex-wrap gap-3">
             {CHIPS.map((chip, i) => (
-              <motion.span
+              <m.span
                 key={chip.label}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -103,7 +103,7 @@ export function About() {
               >
                 <chip.icon className="h-4 w-4 text-accent-primary" aria-hidden="true" />
                 {chip.label}
-              </motion.span>
+              </m.span>
             ))}
           </div>
         </div>

@@ -52,7 +52,7 @@ export function DashboardShowcase() {
       {/* Heading (sits above the pinned track on desktop) */}
       <div className="container-x md:absolute md:left-1/2 md:top-16 md:z-10 md:-translate-x-1/2">
         <SectionHeader
-          eyebrow="// 08. Dashboard Showcase"
+          eyebrow="// Dashboard Showcase"
           title="Dashboards that drive decisions"
           align="center"
         />

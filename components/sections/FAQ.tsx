@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { SITE_CONFIG } from '@/lib/config'
@@ -15,7 +15,7 @@ export function FAQ() {
   return (
     <section id="faq" className="section border-t border-border-subtle">
       <div className="container-x max-w-3xl">
-        <SectionHeader eyebrow="// 14. FAQ" title="Questions, answered" align="center" />
+        <SectionHeader eyebrow="// FAQ" title="Questions, answered" align="center" />
 
         <div className="mt-12 divide-y divide-border-subtle border-y border-border-subtle">
           {faq.map((item, i) => {
@@ -41,7 +41,7 @@ export function FAQ() {
                 </button>
                 <AnimatePresence initial={false}>
                   {isOpen && (
-                    <motion.div
+                    <m.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -51,7 +51,7 @@ export function FAQ() {
                       <p className="pb-5 text-sm leading-relaxed text-text-secondary md:text-base">
                         {item.answer}
                       </p>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </div>

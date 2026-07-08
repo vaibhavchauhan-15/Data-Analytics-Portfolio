@@ -1,15 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePerformance } from '@/components/providers/PerformanceProvider'
 
-/** Mouse-following radial glow. Desktop + fine-pointer only; respects reduced motion. */
+/** Mouse-following radial glow. Desktop + fine-pointer only; respects reduced
+ *  motion and the performance tier (disabled on low-end devices). */
 export function CursorGlow() {
+  const { allowCursor, detected } = usePerformance()
   const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
-    const finePointer = window.matchMedia('(pointer: fine)').matches
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!finePointer || reduced) return
+    // allowCursor already folds in fine-pointer, hover, touch, tier and reduced
+    // motion — wait for detection, then honor it.
+    if (!detected || !allowCursor) return
     setEnabled(true)
 
     let mouseX = window.innerWidth / 2
@@ -65,7 +68,7 @@ export function CursorGlow() {
       window.removeEventListener('mousemove', onMove)
       cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [detected, allowCursor])
 
   if (!enabled) return null
   return <div id="cursor-glow" aria-hidden="true" />

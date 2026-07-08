@@ -6,6 +6,7 @@ import type { Application } from '@splinetool/runtime'
 
 import { KineticText } from '@/components/ui/kinetic-text'
 import { AnimatedShinyText } from '@/components/magicui/animated-shiny-text'
+import { usePerformance } from '@/components/providers/PerformanceProvider'
 import { SITE_CONFIG } from '@/lib/config'
 
 // The Spline runtime is a heavy (~1MB+) WebGL bundle. Load it on the client only,
@@ -15,14 +16,17 @@ const Spline = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
 const SCENE = 'https://prod.spline.design/yGpWjXfQ97agmFQ2/scene.splinecode'
 
 export function Hero() {
+  const { allowSpline, detected } = usePerformance()
   const [mountScene, setMountScene] = useState(false)
   const [sceneReady, setSceneReady] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const appRef = useRef<Application | null>(null)
 
   useEffect(() => {
-    // Users who prefer reduced motion never download the 3D scene.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Wait for device classification, then only download the ~1MB Spline runtime
+    // on tiers that can afford it. Low-end / data-saver / reduced-motion visitors
+    // get the static gradient poster instead (rendered below when !mountScene).
+    if (!detected || !allowSpline) return
 
     const start = () => setMountScene(true)
 
@@ -33,7 +37,7 @@ export function Hero() {
     }
     const t = setTimeout(start, 600)
     return () => clearTimeout(t)
-  }, [])
+  }, [detected, allowSpline])
 
   // Pause the WebGL render loop whenever the hero is scrolled out of view, and
   // resume it when it returns. Combined with `renderOnDemand`, this keeps the
@@ -68,7 +72,18 @@ export function Hero() {
           `pointer-events-auto` lets visitors drag / orbit it, while the text
           column above keeps its buttons clickable. `renderOnDemand` only paints
           frames on change (interaction/animation) instead of a constant loop. */}
-      <div className="pointer-events-auto absolute bottom-0 left-0 -right-[15%] -top-[15%] z-0">
+      {/* Static gradient poster — the graceful fallback when the WebGL scene is
+          suppressed (low tier / data-saver / reduced motion). Mirrors the scene's
+          accent-lit, top-right-weighted look with a pure-CSS radial gradient, so
+          the hero still feels intentional at zero GPU/network cost. */}
+      {!mountScene && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 bg-[radial-gradient(120%_100%_at_85%_-10%,rgba(57,255,20,0.28),transparent_55%),radial-gradient(90%_80%_at_100%_0%,rgba(57,255,20,0.12),transparent_60%)]"
+        />
+      )}
+
+      <div className="pointer-events-auto absolute -bottom-[10%] -left-[140%] -right-0 -top-[15%] z-0 sm:bottom-0 sm:left-0 sm:-right-[15%]">
         {mountScene && (
           <Spline
             scene={SCENE}
@@ -91,7 +106,7 @@ export function Hero() {
       {/* Content — anchored bottom-left, on the top layer above the model. The
           wrapper lets pointer events fall through to the model; only the actual
           interactive children (headings, buttons, badge) re-enable them. */}
-      <div className="pointer-events-none relative z-10 w-full max-w-[90%] px-6 pb-10 pt-32 sm:max-w-md md:px-10 lg:max-w-2xl">
+      <div className="pointer-events-none relative z-10 w-full max-w-[92%] px-6 pb-28 pt-28 sm:max-w-md sm:pb-12 sm:pt-32 md:px-10 lg:max-w-2xl">
         {/* Kinetic heading — each letter thickens (with a stroke) on hover and
             nudges its neighbours. Uses the variable-axis Sora so the weight
             transition morphs smoothly instead of snapping between instances. */}
@@ -122,7 +137,7 @@ export function Hero() {
           />
           <KineticText
             as="span"
-            text="Data"
+            text="Data Analyst"
             className="pointer-events-auto text-[clamp(3rem,8vw,6rem)] uppercase leading-[1.05] tracking-[-0.05em] text-accent-primary [font-family:var(--font-sora-flex)] [font-optical-sizing:auto]"
           />
         </div>

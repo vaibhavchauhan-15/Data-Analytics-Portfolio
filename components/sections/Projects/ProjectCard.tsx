@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Github, ExternalLink, ArrowUpRight } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { categoryLabels, type Project } from '@/lib/data/projects'
@@ -11,7 +11,7 @@ import { categoryLabels, type Project } from '@/lib/data/projects'
 export const ProjectCard = forwardRef<HTMLElement, { project: Project; index: number }>(
   function ProjectCard({ project, index }, ref) {
   return (
-    <motion.article
+    <m.article
       ref={ref}
       // Featured projects already own this anchor via their FeatureCard; avoid a duplicate id.
       id={project.featured ? undefined : project.id}
@@ -76,6 +76,6 @@ export const ProjectCard = forwardRef<HTMLElement, { project: Project; index: nu
         )}
       </div>
       </div>
-    </motion.article>
+    </m.article>
   )
 })

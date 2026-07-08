@@ -1,13 +1,13 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Github, ExternalLink, CheckCircle2 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { categoryLabels, type Project } from '@/lib/data/projects'
 
 export function FeatureCard({ project, index }: { project: Project; index: number }) {
   return (
-    <motion.article
+    <m.article
       id={project.id}
       className="feature-card group card-surface flex scroll-mt-24 flex-col overflow-hidden"
       initial={{ opacity: 0, y: 60, scale: 0.96 }}
@@ -74,6 +74,6 @@ export function FeatureCard({ project, index }: { project: Project; index: numbe
           )}
         </div>
       </div>
-    </motion.article>
+    </m.article>
   )
 }

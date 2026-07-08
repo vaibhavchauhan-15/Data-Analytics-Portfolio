@@ -3,23 +3,30 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import { gsap, ScrollTrigger, registerGsap } from '@/lib/gsap'
-import { prefersReducedMotion } from '@/lib/utils'
+import { usePerformance } from '@/components/providers/PerformanceProvider'
 
 /**
  * Initializes Lenis smooth scrolling and connects it to the GSAP ticker so
- * ScrollTrigger stays in sync. Disabled when the user prefers reduced motion.
+ * ScrollTrigger stays in sync. Gated on the performance tier: skipped entirely on
+ * low-end / reduced-motion devices (native scroll), and given a shorter, cheaper
+ * glide on mid tiers.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const { allowSmoothScroll, tier, detected } = usePerformance()
+
   useEffect(() => {
     registerGsap()
 
-    if (prefersReducedMotion()) return
+    // Wait for classification before deciding; skip on unsupported tiers so those
+    // visitors get the browser's native (cheaper) inertial scroll.
+    if (!detected || !allowSmoothScroll) return
 
     const lenis = new Lenis({
       // Duration + exponential ease-out gives the long, buttery glide people mean
       // by "super smooth". Lenis integrates this frame-rate independently, so it
-      // stays consistent on 60Hz and 120Hz+ displays.
-      duration: 1.2,
+      // stays consistent on 60Hz and 120Hz+ displays. Shorten it on Tier 3 to cut
+      // the number of interpolated frames per wheel tick.
+      duration: tier >= 3 ? 0.9 : 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       wheelMultiplier: 1,
       orientation: 'vertical',
@@ -53,7 +60,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       gsap.ticker.remove(onTick)
       lenis.destroy()
     }
-  }, [])
+  }, [detected, allowSmoothScroll, tier])
 
   return <>{children}</>
 }

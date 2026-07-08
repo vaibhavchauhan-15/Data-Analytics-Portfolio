@@ -10,7 +10,7 @@ export function Education() {
   return (
     <section id="education" className="section border-t border-border-subtle">
       <div className="container-x">
-        <SectionHeader eyebrow="// 05. Education" title="Academic foundation" />
+        <SectionHeader eyebrow="// Education" title="Academic foundation" />
 
         <Reveal className="mt-10">
           <div className="card-surface flex flex-col gap-6 bg-gradient-card p-6 sm:p-8 md:flex-row md:items-center">

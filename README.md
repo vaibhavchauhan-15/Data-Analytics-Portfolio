@@ -1,12 +1,12 @@
 # Vaibhav Chauhan — Data Analyst Portfolio
 
-A premium, dark-first, scroll-animated portfolio built with Next.js 14 (App Router), TypeScript, Tailwind CSS, GSAP, Three.js, and Framer Motion.
+A premium, dark-first, scroll-animated portfolio built with Next.js 14 (App Router), TypeScript, Tailwind CSS, GSAP, Spline, and Framer Motion. Visual complexity adapts to each device via an adaptive rendering engine (see below).
 
 ## Stack
 
 - **Framework:** Next.js 14 (App Router, RSC, ISR)
 - **Styling:** Tailwind CSS + CSS-variable design tokens (dark/light)
-- **3D:** Three.js via `@react-three/fiber` (lazy-loaded hero particle field)
+- **3D:** Spline (`@splinetool/react-spline`, lazy-loaded interactive hero scene, tier-gated)
 - **Scroll animation:** GSAP + ScrollTrigger (+ SplitText / DrawSVG, free in 3.13+)
 - **Component animation:** Framer Motion
 - **Smooth scroll:** Lenis (wired to the GSAP ticker)
@@ -58,9 +58,8 @@ The OG image is generated dynamically at `/opengraph-image` — no static file n
 ```
 app/            layout, page (RSC), api/contact, sitemap, robots, opengraph-image
 components/
-  canvas/       ParticleField (Three.js)
   layout/       Navbar, MobileMenu, Footer, ScrollProgress, BackgroundController
-  providers/    ThemeProvider, SmoothScroll (Lenis + GSAP)
+  providers/    ThemeProvider, SmoothScroll (Lenis + GSAP), PerformanceProvider (device tiers)
   shared/       SectionHeader, RevealText, Reveal, AnimatedCounter, CursorGlow, ThemeToggle, SectionLabel
   sections/     Hero, About, KPIStats, Skills, Experience, Education, Certifications,
                 Projects/, DashboardShowcase, CaseStudies, DataStorytelling, GitHub,
@@ -73,7 +72,8 @@ styles/         globals.css (design tokens)
 ## Accessibility & performance
 
 - All animations are disabled under `prefers-reduced-motion`.
-- Three.js is dynamically imported (`ssr: false`) and pauses when offscreen.
+- **Adaptive rendering engine** (`components/providers/PerformanceProvider.tsx` + `lib/performance/`): detects CPU, RAM, GPU, network, refresh rate, and input capabilities on the client, classifies the device into a tier (0 ultra-high … 4 ultra-low), and exposes it via `usePerformance()` / `useTier()`. Heavy features (Spline hero, Lenis smooth scroll, custom cursors, blur, infinite CSS loops) are gated on the tier and degrade to lightweight equivalents on low-end devices — force any tier for testing with `?perf=0`…`?perf=4`.
+- Spline hero is dynamically imported (`ssr: false`), tier-gated, and pauses when offscreen; suppressed devices get a static gradient poster.
 - Semantic landmarks, keyboard-navigable, focus-visible rings.
 - Lighthouse targets: Performance ≥ 90, A11y ≥ 90, SEO ≥ 95.
 
