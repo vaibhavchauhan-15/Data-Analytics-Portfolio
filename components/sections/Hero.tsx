@@ -138,7 +138,7 @@ export function Hero() {
           <KineticText
             as="span"
             text="Data Analyst"
-            className="pointer-events-auto text-[clamp(3rem,8vw,6rem)] uppercase leading-[1.05] tracking-[-0.05em] text-accent-primary [font-family:var(--font-sora-flex)] [font-optical-sizing:auto]"
+            className="pointer-events-auto text-[clamp(2rem,6vw,4rem)] uppercase leading-[1.05] tracking-[-0.05em] text-accent-primary [font-family:var(--font-sora-flex)] [font-optical-sizing:auto]"
           />
         </div>
 
