@@ -1,9 +1,9 @@
-import { SectionLabel } from './SectionLabel'
 import { RevealText } from './RevealText'
 import { cn } from '@/lib/utils'
 
 interface SectionHeaderProps {
-  eyebrow: string
+  /** @deprecated eyebrow labels removed in favour of the giant BackgroundTitle; kept so existing callers still type-check. */
+  eyebrow?: string
   title: React.ReactNode
   description?: React.ReactNode
   align?: 'left' | 'center'
@@ -11,7 +11,6 @@ interface SectionHeaderProps {
 }
 
 export function SectionHeader({
-  eyebrow,
   title,
   description,
   align = 'left',
@@ -25,7 +24,6 @@ export function SectionHeader({
         className
       )}
     >
-      <SectionLabel>{eyebrow}</SectionLabel>
       <RevealText className="max-w-3xl text-2xl font-bold leading-tight md:text-3xl">
         {title}
       </RevealText>

@@ -1,7 +1,6 @@
 'use client'
 
 import { Trophy } from 'lucide-react'
-import { SectionLabel } from '@/components/shared/SectionLabel'
 import { Marquee } from '@/components/magicui/marquee'
 import { HyperText } from '@/components/magicui/hyper-text'
 import { achievements, type Achievement } from '@/lib/data/achievements'
@@ -35,7 +34,6 @@ export function Achievements() {
     <section id="achievements" className="section border-t border-border-subtle">
       <div className="container-x">
         <div className="flex flex-col gap-4">
-          <SectionLabel>{'// Achievements'}</SectionLabel>
           <HyperText
             as="h2"
             className="text-2xl font-bold leading-tight text-text-primary md:text-3xl"

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { BarChart3, TrendingUp } from 'lucide-react'
+import { BarChart3, TrendingUp, Github } from 'lucide-react'
 import { gsap, ScrollTrigger, registerGsap } from '@/lib/gsap'
 import { prefersReducedMotion } from '@/lib/utils'
 import { SectionHeader } from '@/components/shared/SectionHeader'
@@ -22,7 +22,10 @@ export function DashboardShowcase() {
 
     registerGsap()
     const ctx = gsap.context(() => {
-      const scrollDistance = trackEl.scrollWidth - window.innerWidth + 80
+      // Scroll exactly until the track's right edge (incl. its md:px-10 gutter)
+      // meets the viewport edge — i.e. the last card is fully revealed — then the
+      // pin releases and vertical scroll resumes. No extra over-scroll.
+      const scrollDistance = trackEl.scrollWidth - window.innerWidth
       if (scrollDistance <= 0) return
 
       gsap.to(trackEl, {
@@ -58,7 +61,7 @@ export function DashboardShowcase() {
         />
       </div>
 
-      <div className="md:flex md:h-screen md:items-center md:pt-40">
+      <div className="md:flex md:h-screen md:items-start md:pt-48">
         <div
           ref={track}
           className="mt-12 flex flex-col gap-6 md:mt-0 md:flex-row md:gap-8 md:px-10"
@@ -66,40 +69,62 @@ export function DashboardShowcase() {
           {dashboards.map((dash) => (
             <article
               key={dash.id}
-              className="dashboard-card container-x card-surface flex-shrink-0 bg-gradient-card p-0 md:w-[560px] md:px-0"
+              className="dashboard-card container-x card-surface flex-shrink-0 bg-gradient-card p-0 md:w-[720px] md:px-0"
             >
-              {/* Mock dashboard visual */}
-              <div className="relative aspect-[16/10] overflow-hidden rounded-t-lg border-b border-border-subtle bg-bg-elevated">
-                <div className="absolute inset-0 bg-grid opacity-50" />
-                <div className="absolute inset-0 flex items-end gap-2 p-8">
-                  {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 rounded-t bg-gradient-to-t from-accent-primary/40 to-accent-cyan/60"
-                      style={{ height: `${h}%` }}
-                    />
-                  ))}
-                </div>
-                <div className="absolute left-6 top-6 flex items-center gap-2 text-accent-glow">
-                  <BarChart3 className="h-5 w-5" aria-hidden="true" />
-                  <span className="font-mono text-xs">Power BI</span>
-                </div>
+              {/* Dashboard visual — real screenshot, mock chart as fallback */}
+              <div className="relative aspect-video overflow-hidden rounded-t-lg border-b border-border-subtle bg-bg-elevated">
+                {dash.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={dash.image}
+                    alt={`${dash.title} dashboard`}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-grid opacity-50" />
+                    <div className="absolute inset-0 flex items-end gap-2 p-8">
+                      {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 rounded-t bg-gradient-to-t from-accent-primary/40 to-accent-cyan/60"
+                          style={{ height: `${h}%` }}
+                        />
+                      ))}
+                    </div>
+                    <div className="absolute left-6 top-6 flex items-center gap-2 text-accent-glow">
+                      <BarChart3 className="h-5 w-5" aria-hidden="true" />
+                      <span className="font-mono text-xs">Power BI</span>
+                    </div>
+                  </>
+                )}
               </div>
 
-              <div className="p-6">
-                <h3 className="font-display text-lg font-semibold text-text-primary">{dash.title}</h3>
-                <p className="mt-2 text-sm text-text-secondary">{dash.description}</p>
-                <div className="mt-4 flex items-center gap-2 text-accent-green">
+              <div className="p-5">
+                <h3 className="font-display text-base font-semibold text-text-primary">{dash.title}</h3>
+                <p className="mt-1.5 line-clamp-2 text-sm text-text-secondary">{dash.description}</p>
+                <div className="mt-3 flex items-center gap-2 text-accent-green">
                   <TrendingUp className="h-4 w-4" aria-hidden="true" />
                   <span className="text-sm font-medium">{dash.metric}</span>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-2">
                   {dash.tags.map((tag) => (
                     <Badge key={tag} variant="outline">
                       {tag}
                     </Badge>
                   ))}
                 </div>
+                {dash.githubUrl && (
+                  <a
+                    href={dash.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-accent-primary"
+                  >
+                    <Github className="h-4 w-4" aria-hidden="true" /> View on GitHub
+                  </a>
+                )}
               </div>
             </article>
           ))}

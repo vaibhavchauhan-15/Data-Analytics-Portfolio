@@ -4,12 +4,14 @@ import { m } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { SectionHeader } from '@/components/shared/SectionHeader'
+import { BackgroundTitle } from '@/components/shared/BackgroundTitle'
 import { experience } from '@/lib/data/experience'
 
 export function Experience() {
   return (
-    <section id="experience" className="section border-t border-border-subtle bg-bg-surface/30">
-      <div className="container-x">
+    <section id="experience" className="section overflow-hidden border-t border-border-subtle bg-bg-surface/30">
+      <BackgroundTitle text="Experience" position="left" />
+      <div className="container-x relative z-10">
         <SectionHeader
           eyebrow="// Experience"
           title="Where I turned data into outcomes"

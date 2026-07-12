@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { MapPin, GraduationCap, Briefcase, Building2 } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
+import { BackgroundTitle } from '@/components/shared/BackgroundTitle'
 import { Reveal } from '@/components/shared/Reveal'
 import { MorphingText } from '@/components/magicui/morphing-text'
 import { m } from 'framer-motion'
@@ -18,8 +19,9 @@ const CHIPS = [
 
 export function About() {
   return (
-    <section id="about" className="section border-t border-border-subtle">
-      <div className="container-x grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <section id="about" className="section overflow-hidden border-t border-border-subtle">
+      <BackgroundTitle text="About" position="left" />
+      <div className="container-x relative z-10 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         {/* Image */}
         <m.div
           initial={{ opacity: 0, x: -60, rotate: -3 }}

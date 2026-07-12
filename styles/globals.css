@@ -107,6 +107,15 @@
   --primary: var(--accent-primary);
   --primary-foreground: var(--accent-foreground);
   --border: var(--border-subtle);
+
+  /* Ghost background-title fill — soft white gradient, fades downward */
+  --bg-title-fill: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    rgba(255, 255, 255, 0.05) 55%,
+    transparent 82%
+  );
 }
 
 /* ============================================================
@@ -118,7 +127,7 @@
   --bg-surface-hover: #f1f5f9;
   --bg-elevated: #ffffff;
 
-  --hero-bg: #ffffff;
+  /* hero-bg intentionally not overridden — hero stays dark (#0a0a0a) in both themes */
   --nav-button: #f1f5f9;
 
   --border-subtle: #e5e7eb;
@@ -146,6 +155,15 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  /* Ghost background-title fill — soft charcoal gradient for light bg */
+  --bg-title-fill: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0.08) 30%,
+    rgba(0, 0, 0, 0.04) 55%,
+    transparent 82%
+  );
 }
 
 /* ============================================================

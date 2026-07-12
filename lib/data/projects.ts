@@ -1,4 +1,4 @@
-export type ProjectCategory = 'powerbi' | 'sql' | 'python' | 'ml'
+export type ProjectCategory = 'powerbi' | 'sql' | 'python' | 'ml' | 'excel' | 'tableau'
 
 export interface Project {
   id: string
@@ -20,6 +20,8 @@ export const categoryLabels: Record<ProjectCategory, string> = {
   sql: 'SQL',
   python: 'Python',
   ml: 'Machine Learning',
+  excel: 'Excel',
+  tableau: 'Tableau',
 }
 
 const GH = 'https://github.com/vaibhavchauhan-15'
@@ -101,6 +103,81 @@ export const projects: Project[] = [
     ],
     githubUrl: GH,
     thumbnail: '/projects/kpi-automation.svg',
+  },
+  {
+    id: 'general-election-2024',
+    title: 'India General Election 2024 Dashboard',
+    description:
+      "Interactive Power BI dashboard visualizing India's 2024 General Election across all 543 constituencies — seat distribution, alliances, and vote margins.",
+    category: 'powerbi',
+    featured: false,
+    techStack: ['Power BI', 'DAX', 'Data Modeling'],
+    outcomes: [
+      'Mapped party- and alliance-wise seat distribution across 543 constituencies',
+      'Surfaced leading candidates and vote margins with interactive filtering',
+    ],
+    githubUrl: `${GH}/GENERAL-ELECTION-DASHBOARD`,
+    thumbnail: '/dashboards/GeneralElection.png',
+  },
+  {
+    id: 'financial-fraud-dashboard',
+    title: 'Financial Risk & Fraud Detection Dashboard',
+    description:
+      'Executive Power BI dashboard that flags suspicious transactions and tracks fraud KPIs, alerts, and high-risk customers in real time.',
+    category: 'powerbi',
+    featured: false,
+    techStack: ['Power BI', 'Power Query', 'DAX'],
+    outcomes: [
+      'Modeled a star schema over transactions, alerts, customers, and dates',
+      'Built fraud-rate, high-risk, and alert-resolution KPIs with 30-day time intelligence',
+    ],
+    githubUrl: `${GH}/Financial-Risk-Fraud-Detection-Dashboard-Power-BI`,
+    thumbnail: '/dashboards/Financial-Risk-Fraud-Detection-Dashboard-Power-BI.png',
+  },
+  {
+    id: 'netflix-content-analytics',
+    title: 'Netflix Content Analytics',
+    description:
+      "Tableau dashboard exploring Netflix's movie and TV catalog by genre, rating, country, and release year.",
+    category: 'tableau',
+    featured: false,
+    techStack: ['Tableau', 'Python', 'Pandas', 'SQL'],
+    outcomes: [
+      'Analyzed content mix across ratings, genres, countries, and release years',
+      'Highlighted top-10 genres and year-over-year content-addition trends',
+    ],
+    githubUrl: `${GH}/Netflix`,
+    thumbnail: '/dashboards/Netflix.png',
+  },
+  {
+    id: 'blinkit-sales-excel',
+    title: 'Blinkit Sales Performance Dashboard',
+    description:
+      'Interactive Excel dashboard turning 8,523 Blinkit grocery-sales records into outlet, inventory, and customer-rating insights.',
+    category: 'excel',
+    featured: false,
+    techStack: ['Excel', 'Pivot Tables', 'Slicers', 'Conditional Formatting'],
+    outcomes: [
+      'Summarized $1.20M in sales across 8,523 items with KPI tiles',
+      'Enabled slicing by outlet size, location, and item type for fast decisions',
+    ],
+    githubUrl: `${GH}/Blinkit-Sales-Performance-Dashboard-Excel`,
+    thumbnail: '/dashboards/Blinkit.png',
+  },
+  {
+    id: 'sales-revenue-analysis',
+    title: 'Sales & Revenue Analysis Dashboard',
+    description:
+      'Power BI dashboard tracking sales, profit, and customer behavior with dynamic slicers across regions and product categories.',
+    category: 'powerbi',
+    featured: false,
+    techStack: ['Power BI', 'Power Query', 'DAX', 'Data Modeling'],
+    outcomes: [
+      'Built KPI cards for total sales, profit, quantity, and profit margin',
+      'Added slicers for year, country, category, and customer segment with a geo map',
+    ],
+    githubUrl: `${GH}/Sale-and-revenue-analysis`,
+    thumbnail: '/dashboards/Sale-and-revenue-analysis.png',
   },
 ]
 

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { Search } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
+import { BackgroundTitle } from '@/components/shared/BackgroundTitle'
 import { ProjectCard } from './ProjectCard'
 import { ProjectCardStack } from './ProjectCardStack'
 import {
@@ -40,8 +41,9 @@ export function Projects() {
   }, [tab, query])
 
   return (
-    <section id="projects" className="section border-t border-border-subtle">
-      <div className="container-x">
+    <section id="projects" className="section overflow-hidden border-t border-border-subtle">
+      <BackgroundTitle text="Projects" position="left" />
+      <div className="container-x relative z-10">
         <SectionHeader
           eyebrow="// Featured Projects"
           title="Shipped, not just sketched"

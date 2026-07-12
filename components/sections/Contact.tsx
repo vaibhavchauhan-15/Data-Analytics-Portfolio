@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { m } from 'framer-motion'
-import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle2 } from 'lucide-react'
-import { SectionLabel } from '@/components/shared/SectionLabel'
+import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle2, User, AtSign, MessageSquare, ChevronDown, Check } from 'lucide-react'
+import { BackgroundTitle } from '@/components/shared/BackgroundTitle'
 import Text3DFlip from '@/components/magicui/text-3d-flip'
 import { Button } from '@/components/ui/Button'
 import { useInViewport } from '@/lib/hooks/useInViewport'
@@ -18,6 +18,87 @@ const CONTACT_LINKS = [
   { icon: MapPin, label: SITE_CONFIG.location, href: undefined },
 ]
 
+type Subject = ContactInput['subject']
+
+function ThemedSelect({
+  value,
+  onChange,
+  fieldClass,
+  iconClass,
+}: {
+  value: Subject
+  onChange: (v: Subject) => void
+  fieldClass: string
+  iconClass: string
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const selected = SUBJECT_OPTIONS.find((o) => o.value === value) ?? SUBJECT_OPTIONS[0]
+
+  useEffect(() => {
+    if (!open) return
+    const onDoc = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDoc)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  return (
+    <div ref={ref} className="relative">
+      <MessageSquare className={iconClass} aria-hidden="true" />
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className={fieldClass + ' flex cursor-pointer appearance-none items-center justify-between pr-10 text-left'}
+      >
+        {selected.label}
+        <ChevronDown
+          className={`pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        />
+      </button>
+
+      {open && (
+        <ul
+          role="listbox"
+          className="absolute z-30 mt-2 w-full overflow-hidden rounded-lg border border-border-subtle bg-bg-surface p-1 shadow-lg"
+        >
+          {SUBJECT_OPTIONS.map((opt) => {
+            const active = opt.value === value
+            return (
+              <li
+                key={opt.value}
+                role="option"
+                aria-selected={active}
+                onClick={() => {
+                  onChange(opt.value as Subject)
+                  setOpen(false)
+                }}
+                className={`flex cursor-pointer items-center justify-between rounded-md px-3 py-2.5 text-sm transition-colors ${
+                  active
+                    ? 'bg-accent-primary/10 text-accent-primary'
+                    : 'text-text-secondary hover:bg-bg-surface-hover hover:text-text-primary'
+                }`}
+              >
+                {opt.label}
+                {active && <Check className="h-4 w-4" aria-hidden="true" />}
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export function Contact() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [sectionRef, inView] = useInViewport<HTMLElement>()
@@ -25,11 +106,14 @@ export function Contact() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
     defaultValues: { subject: 'job' },
   })
+  register('subject') // keep RHF aware of the field the themed dropdown drives
 
   const onSubmit = async (data: ContactInput) => {
     setStatus('idle')
@@ -47,8 +131,11 @@ export function Contact() {
     }
   }
 
+  // ponytail: leading icon lives via pl-11; select reuses this + appearance-none
   const fieldClass =
-    'h-11 w-full rounded-md border border-border-subtle bg-bg-surface px-4 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none transition-colors'
+    'h-12 w-full rounded-lg border border-border-subtle bg-bg-base/40 pl-11 pr-4 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 hover:border-border-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary/20'
+  const iconClass =
+    'pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted'
 
   return (
     <section ref={sectionRef} id="contact" className="section relative overflow-hidden border-t border-border-subtle bg-bg-surface/30">
@@ -63,7 +150,8 @@ export function Contact() {
         className="pointer-events-none absolute -right-20 bottom-20 h-72 w-72 rounded-full bg-accent-cyan/10 blur-3xl animate-float [animation-delay:2s]"
       />
 
-      <div className="container-x relative">
+      <BackgroundTitle text="Contact" position="left" />
+      <div className="container-x relative z-10">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Info */}
           <m.div
@@ -73,7 +161,6 @@ export function Contact() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <SectionLabel>{'// Contact'}</SectionLabel>
             <Text3DFlip
               className="mt-4 font-display text-2xl font-bold leading-tight text-text-primary md:text-3xl"
               rotateDirection="top"
@@ -146,20 +233,30 @@ export function Contact() {
                 </Button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="card-surface space-y-5 p-6 md:p-8" noValidate>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="card-surface space-y-5 border border-border-subtle bg-gradient-to-b from-bg-surface to-bg-base/60 p-6 shadow-lg md:p-8"
+                noValidate
+              >
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-text-secondary">
                       Name
                     </label>
-                    <input id="name" {...register('name')} placeholder="Your name" className={fieldClass} />
+                    <div className="relative">
+                      <User className={iconClass} aria-hidden="true" />
+                      <input id="name" {...register('name')} placeholder="Your name" className={fieldClass} />
+                    </div>
                     {errors.name && <p className="mt-1 text-xs text-accent-red">{errors.name.message}</p>}
                   </div>
                   <div>
                     <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-text-secondary">
                       Email
                     </label>
-                    <input id="email" type="email" {...register('email')} placeholder="you@email.com" className={fieldClass} />
+                    <div className="relative">
+                      <AtSign className={iconClass} aria-hidden="true" />
+                      <input id="email" type="email" {...register('email')} placeholder="you@email.com" className={fieldClass} />
+                    </div>
                     {errors.email && <p className="mt-1 text-xs text-accent-red">{errors.email.message}</p>}
                   </div>
                 </div>
@@ -168,13 +265,12 @@ export function Contact() {
                   <label htmlFor="subject" className="mb-1.5 block text-sm font-medium text-text-secondary">
                     Subject
                   </label>
-                  <select id="subject" {...register('subject')} className={fieldClass}>
-                    {SUBJECT_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
+                  <ThemedSelect
+                    value={watch('subject')}
+                    onChange={(v) => setValue('subject', v, { shouldValidate: true })}
+                    fieldClass={fieldClass}
+                    iconClass={iconClass}
+                  />
                 </div>
 
                 <div>
@@ -186,7 +282,7 @@ export function Contact() {
                     rows={5}
                     {...register('message')}
                     placeholder="Tell me about the role, project, or idea…"
-                    className={fieldClass + ' h-auto resize-none py-3'}
+                    className={fieldClass + ' h-auto resize-none py-3 pl-4'}
                   />
                   {errors.message && <p className="mt-1 text-xs text-accent-red">{errors.message.message}</p>}
                 </div>

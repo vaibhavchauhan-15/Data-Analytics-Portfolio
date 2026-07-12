@@ -90,6 +90,20 @@ export function Hero() {
             renderOnDemand
             onLoad={(app) => {
               appRef.current = app
+              // The scene clears the WebGL canvas with an opaque black. The public
+              // setBackgroundColor() can't make it transparent — the runtime's color
+              // parser drops the alpha channel (seeds a=1). The canvas context itself
+              // has alpha, and the renderer clears with bgColor.a, so zero that alpha
+              // directly to let the hero bg/gradient show through the model.
+              // ponytail: reaches into runtime internals (no public transparent API);
+              // guarded so a runtime rename just no-ops instead of throwing.
+              try {
+                const bg = (app as any)._scene?.activePage?.bgColor
+                if (bg) bg.a = 0
+                app.requestRender?.()
+              } catch {
+                /* internals moved — leave the scene's own background */
+              }
               setSceneReady(true)
             }}
             className={`h-full w-full transition-opacity duration-1000 ease-out ${
@@ -119,12 +133,10 @@ export function Hero() {
             className="
   pointer-events-auto
   bg-gradient-to-b
-  from-black
-  to-gray-300/80
+  from-white
+  to-slate-900/10
   bg-clip-text
   text-transparent
-  dark:from-white
-  dark:to-slate-900/10
   text-[clamp(3rem,8vw,6rem)]
   uppercase
   leading-[1.05]
@@ -143,14 +155,14 @@ export function Hero() {
         </div>
 
         <p
-          className="mb-3 animate-fade-up text-[clamp(1.125rem,2.5vw,1.875rem)] font-light text-text-primary/80 opacity-0 md:mb-6"
+          className="mb-3 animate-fade-up text-[clamp(1.125rem,2.5vw,1.875rem)] font-light text-white/80 opacity-0 md:mb-6"
           style={{ animationDelay: '0.4s' }}
         >
           I turn raw data into decisions.
         </p>
 
         <p
-          className="mb-4 animate-fade-up text-[clamp(0.875rem,1.5vw,1.25rem)] font-light text-text-muted opacity-0 md:mb-8"
+          className="mb-4 animate-fade-up text-[clamp(0.875rem,1.5vw,1.25rem)] font-light text-white/60 opacity-0 md:mb-8"
           style={{ animationDelay: '0.55s' }}
         >
           Power BI dashboards built for clarity. Python pipelines that turn messy data

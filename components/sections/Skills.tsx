@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { skillCategories, type Skill } from '@/lib/data/skills'
 import { projects } from '@/lib/data/projects'
 import { SectionHeader } from '@/components/shared/SectionHeader'
+import { BackgroundTitle } from '@/components/shared/BackgroundTitle'
 
 const projectTitles = new Map(projects.map((p) => [p.id, p.title]))
 
@@ -48,8 +49,9 @@ function SkillPill({ skill }: { skill: Skill }) {
 
 export function Skills() {
   return (
-    <section id="skills" className="section border-t border-border-subtle bg-grid">
-      <div className="container-x">
+    <section id="skills" className="section overflow-hidden border-t border-border-subtle bg-grid">
+      <BackgroundTitle text="Skills" position="left" />
+      <div className="container-x relative z-10">
         <SectionHeader
           eyebrow="// Skills"
           title="The toolkit behind the analysis"
