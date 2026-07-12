@@ -6,7 +6,7 @@
 
 import type { CapabilityFlags, DeviceProfile, DeviceSignals, MotionLevel, Tier } from './types'
 
-/** Networks on which we refuse to pull heavy assets (Spline, WebGL, video). */
+/** Networks on which we refuse to pull heavy assets (video, large images). */
 function isSlowNetwork(s: DeviceSignals): boolean {
   return s.saveData || s.effectiveType === 'slow-2g' || s.effectiveType === '2g'
 }
@@ -65,14 +65,9 @@ const PARTICLES: Record<Tier, number> = { 0: 400, 1: 250, 2: 120, 3: 40, 4: 0 }
 
 /** Derive per-subsystem permissions from the tier and raw signals. */
 export function deriveFlags(tier: Tier, s: DeviceSignals): CapabilityFlags {
-  const slow = isSlowNetwork(s)
   const motionLevel = motionFor(tier, s)
-  const allowWebGL = s.webgl && tier <= 2 && !slow && !s.reducedMotion
 
   return {
-    allowWebGL,
-    // Spline is a ~1MB download + sustained WebGL — reserve it for capable, un-throttled devices.
-    allowSpline: allowWebGL && tier <= 2,
     allowCursor: s.finePointer && s.hover && !s.touch && tier <= 2 && motionLevel !== 'none',
     allowBlur: tier <= 2 && !s.reducedTransparency,
     allowSmoothScroll: tier <= 3 && motionLevel !== 'none',

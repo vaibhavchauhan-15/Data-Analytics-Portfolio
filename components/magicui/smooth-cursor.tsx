@@ -49,7 +49,7 @@ export function SmoothCursor({
   const { allowCursor, detected } = usePerformance()
   const [enabled, setEnabled] = useState(false)
   // Hide the custom cursor over regions that opt back into the native cursor
-  // (e.g. the interactive Spline hero), so drag/orbit feels natural there.
+  // via `[data-native-cursor]`, so the OS cursor is used there instead.
   const [hidden, setHidden] = useState(false)
   const overNative = useRef(false)
   const lastMousePos = useRef<Position>({ x: 0, y: 0 })

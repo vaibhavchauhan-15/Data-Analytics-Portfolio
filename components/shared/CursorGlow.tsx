@@ -51,7 +51,7 @@ export function CursorGlow() {
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX
       mouseY = e.clientY
-      // Fade the glow out over `[data-native-cursor]` regions (e.g. the hero).
+      // Fade the glow out over `[data-native-cursor]` regions.
       if (el) {
         const onNative = !!(e.target as HTMLElement | null)?.closest?.(
           '[data-native-cursor]'

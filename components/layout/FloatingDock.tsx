@@ -8,7 +8,6 @@ import {
   Briefcase,
   FolderGit2,
   BarChart3,
-  Github,
   Mail,
   Download,
   type LucideIcon,
@@ -25,9 +24,6 @@ const ICONS: Record<string, { icon: LucideIcon; className: string }> = {
   '#experience': { icon: Briefcase, className: 'hidden md:flex' },
   '#projects': { icon: FolderGit2, className: '' },
   '#dashboard': { icon: BarChart3, className: 'hidden md:flex' },
-  // GitHub is reachable from its section CTA — hide on the smallest phones so
-  // the dock row never overflows, then bring it back from sm up.
-  '#github': { icon: Github, className: 'hidden sm:flex' },
   '#contact': { icon: Mail, className: '' },
 }
 

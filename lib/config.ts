@@ -14,15 +14,7 @@ export const SITE_CONFIG = {
   resumeUrl: '/resume/Vaibhav_Chauhan_Resume.pdf',
 
   // Feature flags
-  showTestimonials: true,
   showFAQ: true,
-  showBlog: false,
-  showKaggle: false,
-  showDataStorytelling: true,
-
-  // GitHub section
-  githubUsername: 'vaibhavchauhan-15',
-  githubRepoCount: 6,
 } as const
 
 export type NavLink = { label: string; href: string }
@@ -33,6 +25,5 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
   { label: 'Dashboards', href: '#dashboard' },
-  { label: 'GitHub', href: '#github' },
   { label: 'Contact', href: '#contact' },
 ]

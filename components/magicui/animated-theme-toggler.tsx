@@ -18,7 +18,7 @@ interface AnimatedThemeTogglerProps {
  * The switch is driven entirely by the View Transitions API: the browser
  * snapshots the old + new theme as GPU bitmaps and we animate a single
  * `clip-path` circle on the compositor. That means the reveal stays at 60fps
- * no matter how heavy the page is (Three.js / Spline / GSAP), and no per-element
+ * no matter how heavy the page is (GSAP / Framer Motion), and no per-element
  * color transitions run underneath (see `disableTransitionOnChange` in the
  * ThemeProvider). Falls back to an instant swap when VT / reduced-motion apply.
  */

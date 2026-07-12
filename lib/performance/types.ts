@@ -43,10 +43,6 @@ export interface DeviceSignals {
 
 /** Policy flags derived from the tier + signals; what each subsystem may do. */
 export interface CapabilityFlags {
-  /** Download + render the interactive Spline WebGL hero. */
-  allowSpline: boolean
-  /** Any WebGL work at all. */
-  allowWebGL: boolean
   /** Custom cursor + follow-glow layers. */
   allowCursor: boolean
   /** backdrop-filter / blur() surfaces (else fall back to solid gradients). */

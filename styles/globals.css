@@ -111,10 +111,10 @@
   /* Ghost background-title fill — soft white gradient, fades downward */
   --bg-title-fill: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.16) 0%,
-    rgba(255, 255, 255, 0.1) 30%,
-    rgba(255, 255, 255, 0.05) 55%,
-    transparent 82%
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.2) 30%,
+    rgba(255, 255, 255, 0.1) 55%,
+    transparent 85%
   );
 }
 
@@ -159,10 +159,10 @@
   /* Ghost background-title fill — soft charcoal gradient for light bg */
   --bg-title-fill: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.12) 0%,
-    rgba(0, 0, 0, 0.08) 30%,
-    rgba(0, 0, 0, 0.04) 55%,
-    transparent 82%
+    rgba(0, 0, 0, 0.22) 0%,
+    rgba(0, 0, 0, 0.15) 30%,
+    rgba(0, 0, 0, 0.07) 55%,
+    transparent 85%
   );
 }
 
