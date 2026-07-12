@@ -2,17 +2,23 @@
 
 import { useEffect, useState } from 'react'
 import { usePerformance } from '@/components/providers/PerformanceProvider'
+import { useMediaQuery } from '@/lib/hooks/useInViewport'
 
 /** Mouse-following radial glow. Desktop + fine-pointer only; respects reduced
  *  motion and the performance tier (disabled on low-end devices). */
 export function CursorGlow() {
   const { allowCursor, detected } = usePerformance()
+  // Mobile users never get the follow-glow — don't even attach the listener.
+  const isDesktop = useMediaQuery('(min-width: 768px)')
   const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
     // allowCursor already folds in fine-pointer, hover, touch, tier and reduced
-    // motion — wait for detection, then honor it.
-    if (!detected || !allowCursor) return
+    // motion — wait for detection, then honor it. Also require a desktop width.
+    if (!detected || !allowCursor || !isDesktop) {
+      setEnabled(false)
+      return
+    }
     setEnabled(true)
 
     let mouseX = window.innerWidth / 2
@@ -68,8 +74,8 @@ export function CursorGlow() {
       window.removeEventListener('mousemove', onMove)
       cancelAnimationFrame(raf)
     }
-  }, [detected, allowCursor])
+  }, [detected, allowCursor, isDesktop])
 
-  if (!enabled) return null
+  if (!enabled || !isDesktop) return null
   return <div id="cursor-glow" aria-hidden="true" />
 }
