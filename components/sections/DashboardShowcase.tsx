@@ -50,7 +50,7 @@ export function DashboardShowcase() {
     <section
       id="dashboard"
       ref={section}
-      className="relative overflow-hidden border-t border-border-subtle bg-bg-surface/30 py-24 md:py-0"
+      className="relative hidden overflow-hidden border-t border-border-subtle bg-bg-surface/30 py-24 md:block md:py-0"
     >
       {/* Heading (sits above the pinned track on desktop) */}
       <div className="container-x md:absolute md:left-1/2 md:top-16 md:z-10 md:-translate-x-1/2">

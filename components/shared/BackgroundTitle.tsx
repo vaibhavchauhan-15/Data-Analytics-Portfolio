@@ -74,7 +74,7 @@ export function BackgroundTitle({ text, position = 'left', className }: Backgrou
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           'absolute top-0 block whitespace-nowrap font-display font-black uppercase leading-[0.8]',
-          'tracking-[-0.06em] [font-size:clamp(12rem,18vw,18rem)]',
+          'tracking-[-0.06em] [font-size:clamp(5rem,18vw,18rem)]',
           position === 'left' && 'left-[2%]',
           position === 'right' && 'right-[-4%]',
           position === 'center' && 'left-1/2',

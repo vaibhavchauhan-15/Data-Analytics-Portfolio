@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-end overflow-hidden bg-white font-sora dark:bg-neutral-950"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white font-sora dark:bg-neutral-950 md:items-end md:justify-end"
     >
       {/* Animated flowing SVG paths. Two mirrored fields fill the section and
           adapt to the theme (dark strokes on light, white strokes on dark).
@@ -30,8 +30,9 @@ export function Hero() {
           or interaction beneath it. */}
       <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-white/70 via-white/20 to-transparent dark:from-black/60 dark:via-black/20 dark:to-transparent" />
 
-      {/* Content — anchored bottom-left, on the top layer. */}
-      <div className="relative z-10 w-full max-w-[92%] px-6 pb-28 pt-28 sm:max-w-md sm:pb-12 sm:pt-32 md:px-10 lg:max-w-2xl">
+      {/* Content — vertically centered on mobile (clear of the flowing lines),
+          anchored bottom-right on desktop. */}
+      <div className="relative z-10 w-full max-w-[92%] px-6 pb-16 pt-24 sm:max-w-md sm:pb-12 sm:pt-32 md:px-10 md:pb-12 md:text-right lg:max-w-2xl">
         {/* Kinetic heading — each letter thickens (with a stroke) on hover and
             nudges its neighbours. Uses the variable-axis Sora so the weight
             transition morphs smoothly instead of snapping between instances. */}
@@ -57,6 +58,7 @@ export function Hero() {
   tracking-[-0.05em]
   whitespace-pre-wrap
   text-center
+  md:text-right
   [font-family:var(--font-sora-flex)]
   [font-optical-sizing:auto]
 "
@@ -85,7 +87,7 @@ export function Hero() {
         </p>
 
         <div
-          className="flex animate-fade-up flex-wrap gap-3 font-bold opacity-0"
+          className="flex animate-fade-up flex-wrap gap-3 font-bold opacity-0 md:justify-end"
           style={{ animationDelay: '0.7s' }}
         >
           <a
@@ -103,7 +105,7 @@ export function Hero() {
         </div>
 
         <div
-          className="mt-4 animate-fade-up opacity-0 md:mt-6"
+          className="mt-4 animate-fade-up opacity-0 md:mt-6 md:flex md:justify-end"
           style={{ animationDelay: '0.85s' }}
         >
           <div className="inline-flex items-center rounded-full border border-border-subtle bg-bg-surface/40 px-4 py-1.5 backdrop-blur transition-colors hover:bg-bg-surface/70">

@@ -395,6 +395,14 @@ html.lenis body {
   transform: translate3d(-9999px, -9999px, 0);
 }
 
+/* Never show the follow-glow on mobile / small viewports (also covers
+   desktop-emulated mobile where a fine pointer is still reported). */
+@media (max-width: 767px) {
+  #cursor-glow {
+    display: none !important;
+  }
+}
+
 /* ============================================================
    VIEW TRANSITIONS — animated theme toggle
    Disable the default root cross-fade so the AnimatedThemeToggler's

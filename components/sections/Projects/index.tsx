@@ -6,7 +6,6 @@ import { Search } from 'lucide-react'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { BackgroundTitle } from '@/components/shared/BackgroundTitle'
 import { ProjectCard } from './ProjectCard'
-import { ProjectCardStack } from './ProjectCardStack'
 import {
   projects,
   categoryLabels,
@@ -50,11 +49,8 @@ export function Projects() {
           description="Real builds with measurable outcomes — from BI dashboards to ML anomaly detection."
         />
 
-        {/* Featured — interactive 3D card stack (drag / swipe / arrow keys) */}
-        <ProjectCardStack />
-
         {/* Index */}
-        <div className="mt-24">
+        <div className="mt-12">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div
               role="tablist"
