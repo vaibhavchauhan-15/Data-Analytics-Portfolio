@@ -91,7 +91,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - CTAs: "Get Resume" (PDF download), "Let's Talk" (scroll to contact)
 - Smooth scroll-into-view with parallax effects
 
-![Hero Section](./public/hero.png)
+![Hero Section](./public/screenshots/hero.png)
 
 #### 2. **About Section**
 - Professional bio with reveal animations
@@ -99,7 +99,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Animated counter showing years of experience / projects completed
 - Key highlights with icon badges
 
-![About Section](./public/about.png)
+![About Section](./public/screenshots/about.png)
 
 #### 3. **Skills Section**
 - Categorized skills: Analytics, Programming, Databases, Tools, Soft Skills
@@ -107,7 +107,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Responsive grid layout (1-4 columns per device)
 - Skill level indicators (visual bars or badges)
 
-![Skills Section](./public/skill.png)
+![Skills Section](./public/screenshots/skill.png)
 
 #### 4. **Experience Section**
 - Timeline layout with company logos, titles, dates
@@ -115,14 +115,14 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Hover-triggered animations
 - Filtering by role type (optional)
 
-![Experience Section](./public/exp.png)
+![Experience Section](./public/screenshots/exp.png)
 
 #### 5. **Education Section**
 - B.Tech, certifications, course highlights
 - Date ranges, GPA, key subjects
 - Achievement badges
 
-![Education Section](./public/edu.png)
+![Education Section](./public/screenshots/edu.png)
 
 #### 6. **Certifications Section**
 - Structured list of professional certifications
@@ -130,7 +130,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Icons for each certification type
 - Searchable / filterable (optional)
 
-![Certifications Section](./public/certification.png)
+![Certifications Section](./public/screenshots/certification.png)
 
 #### 7. **Projects Section**
 - Hero project with large cover image, description, tech stack, live/GitHub links
@@ -138,7 +138,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Lazy-loaded images with blur-up effect
 - Tech badges, status (featured, archived), view count
 
-![Project Showcase](./public/project.png)
+![Project Showcase](./public/screenshots/project.png)
 
 #### 8. **Featured Project Deep-Dive**
 - High-resolution screenshot, full description
@@ -146,7 +146,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Tech stack breakdown
 - Links to live demo, GitHub repo, case study
 
-![Featured Project](./public/featureproject.png)
+![Featured Project](./public/screenshots/featureproject.png)
 
 #### 9. **Dashboard & Analytics Showcase**
 - Portfolio of Power BI / Tableau dashboards
@@ -160,7 +160,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Charts, screenshots, SQL queries, code snippets
 - Downloadable insights (optional PDF)
 
-![Case Study Example](./public/casestudy.png)
+![Case Study Example](./public/screenshots/casestudy.png)
 
 #### 11. **Tech Stack Section**
 - Categorized technology breakdown
@@ -168,7 +168,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Logos or text badges
 - Proficiency level (Expert, Intermediate, Learning)
 
-![Tech Stack](./public/techstack.png)
+![Tech Stack](./public/screenshots/techstack.png)
 
 #### 12. **Achievements & Awards**
 - Hackathon wins, competitions, scholarships
@@ -176,7 +176,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Impact metrics or prize amount
 - Animated counters for aggregate stats
 
-![Achievements](./public/achievement.png)
+![Achievements](./public/screenshots/achievement.png)
 
 #### 13. **GitHub Activity Feed**
 - Fetches top repos from GitHub API
@@ -202,7 +202,7 @@ This is a **full-stack Next.js portfolio** built to showcase data analytics expe
 - Success/error toast notifications
 - Rate limiting (1 email per 60 sec per IP)
 
-![Contact Form & Footer](./public/contactformwithfooter.png)
+![Contact Form & Footer](./public/screenshots/contactformwithfooter.png)
 
 #### 17. **Sticky Navigation & Footer**
 - Sticky header with dark/light theme toggle
@@ -876,40 +876,40 @@ This project is **MIT Licensed**. Feel free to use it as a template for your own
 ### Full Portfolio Flow
 
 **Hero Section**
-![Hero](./public/hero.png)
+![Hero](./public/screenshots/hero.png)
 
 **About & Stats**
-![About](./public/about.png)
+![About](./public/screenshots/about.png)
 
 **Skills**
-![Skills](./public/skill.png)
+![Skills](./public/screenshots/skill.png)
 
 **Experience**
-![Experience](./public/exp.png)
+![Experience](./public/screenshots/exp.png)
 
 **Education**
-![Education](./public/edu.png)
+![Education](./public/screenshots/edu.png)
 
 **Certifications**
-![Certifications](./public/certification.png)
+![Certifications](./public/screenshots/certification.png)
 
 **Projects**
-![Projects](./public/project.png)
+![Projects](./public/screenshots/project.png)
 
 **Featured Project Detail**
-![Featured Project](./public/featureproject.png)
+![Featured Project](./public/screenshots/featureproject.png)
 
 **Case Study**
-![Case Study](./public/casestudy.png)
+![Case Study](./public/screenshots/casestudy.png)
 
 **Tech Stack**
-![Tech Stack](./public/techstack.png)
+![Tech Stack](./public/screenshots/techstack.png)
 
 **Achievements**
-![Achievements](./public/achievement.png)
+![Achievements](./public/screenshots/achievement.png)
 
 **Contact & Footer**
-![Contact & Footer](./public/contactformwithfooter.png)
+![Contact & Footer](./public/screenshots/contactformwithfooter.png)
 
 ---
 

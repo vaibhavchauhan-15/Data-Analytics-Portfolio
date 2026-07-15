@@ -24,7 +24,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           <div className="flex items-center justify-between px-4 py-5">
             <span className="inline-flex items-end font-display text-lg font-extrabold leading-none tracking-tight text-text-primary">
               <video
-                src="/logovideo.webm"
+                src="/media/logovideo.webm"
                 autoPlay
                 loop
                 muted

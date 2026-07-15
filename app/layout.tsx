@@ -15,7 +15,12 @@ export const metadata: Metadata = {
     template: '%s | Vaibhav Chauhan',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
   description: SITE_CONFIG.description,
   keywords: [
