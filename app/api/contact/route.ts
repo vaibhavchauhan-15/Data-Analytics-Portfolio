@@ -4,6 +4,10 @@ import { ZodError } from 'zod'
 import { contactSchema, SUBJECT_OPTIONS } from '@/lib/schema'
 import { acknowledgmentEmail, ownerNotificationEmail } from '@/lib/email/templates'
 
+// Cloudflare Pages (via @cloudflare/next-on-pages) runs server code on the
+// Workers runtime, so every dynamic route handler must opt into the Edge runtime.
+export const runtime = 'edge'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

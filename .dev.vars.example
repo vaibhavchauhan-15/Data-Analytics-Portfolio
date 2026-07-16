@@ -1,0 +1,16 @@
+# Local secrets for `wrangler pages dev` (the Cloudflare Workers runtime preview).
+# Copy this file to `.dev.vars` and fill in real values. `.dev.vars` is gitignored.
+# In production, set these in the Cloudflare Pages dashboard:
+#   Workers & Pages > your project > Settings > Variables and Secrets.
+
+# Resend — contact form email delivery (https://resend.com)
+RESEND_API_KEY=
+
+# Optional — raises GitHub API rate limit for the GitHub Activity section
+GITHUB_TOKEN=
+
+# Address that contact-form submissions are delivered to
+CONTACT_TO_EMAIL=vaibhav1chauhan12353@gmail.com
+
+# Sender address for outgoing mail (must be on a Resend-verified domain)
+CONTACT_FROM_EMAIL=Vaibhav Chauhan <contact@mealmitra.online>
